@@ -4,12 +4,14 @@ const bodyParser = require('body-parser');
 const routes = require('./routes');
 //const { createTunnel } = require('./helpers/tunnel');
 
-const { PORT: port } = process.env;
+const PORT = process.env.PORT || 8080;
+
 const app = express();
 
 app.use(bodyParser.json());
 app.use(routes);
-app.listen(port, () => {
+
+app.listen(PORT, () => {
  // createTunnel(port);
 });
 
