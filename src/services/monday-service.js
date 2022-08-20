@@ -28,7 +28,7 @@ const changeMultipleColumnValues = async (token, boardId, itemId, columnId, valu
   try {
     const mondayClient = initMondayClient({ token });
 
-    var columnvalues = JSON.stringify({name:"Umair",link:"technisia.com"})
+    var columnvalues = JSON.stringify({name:"Umair",link:{url: "https://www.technisia.com" , text:'Website'} })
 
     const query = `mutation change_multiple_column_values($boardId: Int!, $itemId: Int!, $columnvalues: JSON!) {
       change_multiple_column_values(board_id: $boardId, item_id: $itemId, column_values: $columnvalues) {
