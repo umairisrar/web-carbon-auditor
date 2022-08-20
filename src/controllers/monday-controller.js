@@ -21,7 +21,8 @@ async function executeAction(req, res) {
       transformationType ? transformationType.value : 'TO_UPPER_CASE'
     );
 
-    await mondayService.changeColumnValue(shortLivedToken, boardId, itemId, targetColumnId, transformedText);
+   
+    await mondayService.changeMultipleColumnValues(shortLivedToken, boardId, itemId, targetColumnId, transformedText);
 
     return res.status(200).send({});
   } catch (err) {
@@ -29,6 +30,8 @@ async function executeAction(req, res) {
     return res.status(500).send({ message: 'internal server error' });
   }
 }
+
+
 
 async function getRemoteListOptions(req, res) {
   try {
