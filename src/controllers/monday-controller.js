@@ -22,7 +22,7 @@ async function executeAction(req, res) {
     );
 
    
-    await mondayService.changeColumnValue(shortLivedToken, boardId, itemId, targetColumnId, transformedText);
+    await mondayService.changeMultipleColumnValues(shortLivedToken, boardId, itemId, targetColumnId, transformedText);
 
     return res.status(200).send({});
   } catch (err) {
