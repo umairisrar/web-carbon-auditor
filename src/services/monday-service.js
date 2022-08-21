@@ -3,6 +3,7 @@ const initMondayClient = require('monday-sdk-js');
 const { co2 } = require('@tgwf/co2')
 const fetch = require('node-fetch');
   
+const co2Emission = new co2();
 
 const getColumnValue = async (token, itemId, columnId) => {
   try {
@@ -132,12 +133,12 @@ function calculateWebFootprint(complete_url){
       var performance = Math.ceil(obj.lighthouseResult.categories['performance'].score * 100);
     
       const greenHost = false // Is the data transferred from a green host?
-      const co2Emission = new co2();
-      var co2 = co2Emission.perByte(totalBytes, greenHost).toString();
+      
+      var co2Value = co2Emission.perByte(totalBytes, greenHost).toString();
 
 
     resolve({
-      co2,
+      co2:co2Value,
       speed,
       performance
     });
