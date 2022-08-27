@@ -69,7 +69,7 @@ const createColumn = async (token,boardId, title, type) => {
     console.log({token,boardId,title,type});
 
     const query = `mutation { 
-    create_column (board_id: ${boardId}, title: ${title}, column_type: ${[type]}) {
+    create_column (board_id: ${boardId}, title: ${title}, column_type: text }) {
       id }}`;
 
   //    const variables = { boardId, title };
