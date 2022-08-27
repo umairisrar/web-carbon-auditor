@@ -60,8 +60,11 @@ const getRowAtributes = async (token, itemId) => {
   }
 };
 
-const createColumn = async (boardId, title, type) => {
+const createColumn = async (token,boardId, title, type) => {
   try {
+
+    const mondayClient = initMondayClient({ token });
+
     const query = `mutation { 
     create_column (board_id: ${boardId}, title: ${title}, column_type: ${type}) {
       id }}`;
