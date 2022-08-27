@@ -68,9 +68,26 @@ const createColumn = async (token,boardId, title, type) => {
 
     console.log({token,boardId,title,type});
 
-    const query = `mutation { 
-    create_column (board_id: ${boardId}, title: ${title}, column_type: text }) {
-      id }}`;
+
+
+    const query = `mutation create_column($boardId: Int!, $title: String!) {
+      create_column(board_id: $boardId, title: $itemId, column_type: text) {
+          id
+        }
+      }
+      `;
+
+    const variables = { boardId, title };
+
+    //const response = await mondayClient.api(query, { variables });
+
+
+
+
+
+    // const query = `mutation { 
+    // create_column (board_id: ${boardId}, title: ${title}, column_type: text }) {
+    //   id }}`;
 
 
       console.log(query);
@@ -78,9 +95,9 @@ const createColumn = async (token,boardId, title, type) => {
 
 //    const response = await mondayClient.api(query, { variables });
 
+    
 
-
-    return await mondayClient.api(query).then(async (res) => {
+    return await mondayClient.api(query,{variables}).then(async (res) => {
       await console.log(`col created: ${JSON.stringify(res)}`);
     });
   } catch (err) {
