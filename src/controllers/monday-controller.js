@@ -67,7 +67,7 @@ async function executeAction(req, res) {
     let co2ColumnId=-1,speedColumnId=-1,performanceColumnId=-1,co2SWDColumnId=-1,
     unusedCSSBytesColumnId=-1,
     unusedCSSSecondsColumnId=-1,unusedJavascriptBytesColumnId=-1,unusedJavascriptSecondsColumnId=-1,
-    //energyPerVisitColumnId=-1,
+    energyPerVisitColumnId=-1,
     emissionsPerVisitInGramsColumnId=-1,annualEnergyInKwhColumnId=-1,annualEmissionsInGramsColumnId=-1;
 
 
@@ -152,12 +152,12 @@ async function executeAction(req, res) {
     unusedCSSSecondsColumnId = unusedCSSSecondsColumn.id
     
 
-    // var energyColumn = allRowAttributes.find(item => item.title.toLowerCase() === "energy per visit");
-    // if(!energyColumn){
-    //   energyColumn = await mondayService.createColumn(shortLivedToken,boardId,"Energy Per Visit","text");
-    //   energyColumn = energyColumn.data.create_column
-    // }
-    // energyPerVisitColumnId = energyColumn.id
+    var energyColumn = allRowAttributes.find(item => item.title.toLowerCase() === "energy per visit");
+    if(!energyColumn){
+      energyColumn = await mondayService.createColumn(shortLivedToken,boardId,"Energy Per Visit","text");
+      energyColumn = energyColumn.data.create_column
+    }
+    energyPerVisitColumnId = energyColumn.id
 
 
 
@@ -195,7 +195,7 @@ async function executeAction(req, res) {
       unusedJavascriptBytesColumnId,unusedJavascriptSecondsColumnId,unusedCSSBytesColumnId,
       unusedCSSSecondsColumnId,
       
-      //energyPerVisitColumnId,
+      energyPerVisitColumnId,
       emissionsPerVisitInGramsColumnId,
       annualEnergyInKwhColumnId,
       co2SWDColumnId,annualEmissionsInGramsColumnId};
