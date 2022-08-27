@@ -242,9 +242,9 @@ function calculateWebFootprint(complete_url){
 
       
 
-       var emissionsPerVisitInGrams = swd.emissionsPerVisitInGrams(totalBytes);
-       var annualEnergyInKwh = swd.annualEnergyInKwh(totalBytes);
-       var annualEmissionsInGrams = swd.annualEmissionsInGrams(totalBytes);
+       var emissionsPerVisitInGrams = swd.emissionsPerVisitInGrams(energyPerVisit);
+       var annualEnergyInKwh = swd.annualEnergyInKwh(energyPerVisit);
+       var annualEmissionsInGrams = swd.annualEmissionsInGrams(co2SWDValue);
 
 
     resolve({
