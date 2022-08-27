@@ -164,7 +164,7 @@ const changeMultipleColumnValues = async (token, boardId, itemId,websiteColumn, 
       [unusedCSSSecondsColumnId]:byteResult.unusedCSSSeconds,
       [unusedJavascriptSecondsColumnId]:byteResult.unusedJavascriptSeconds,
       [unusedCSSBytesColumnId]:byteResult.unusedCSSBytes,
-    //  [energyPerVisitColumnId]:byteResult.energyPerVisit,
+      [energyPerVisitColumnId]:byteResult.energyPerVisit,
       [emissionsPerVisitInGramsColumnId]:byteResult.emissionsPerVisitInGrams,
       [annualEnergyInKwhColumnId]:byteResult.annualEnergyInKwh,
       [annualEmissionsInGramsColumnId]:byteResult.annualEmissionsInGrams
@@ -210,10 +210,10 @@ function calculateWebFootprint(complete_url){
       var speed  =  obj.lighthouseResult.audits['speed-index'].displayValue;
       var performance = Math.ceil(categoriesData['performance'].score * 100);
       //var domSize = obj.lighthouseResult.audits['dom-size'].details.items[0].value;
-      var unusedJavascriptSeconds = obj.lighthouseResult.audits['unused-javascript']["details"]["overallSavingsMs"]
-      var unusedJavascriptBytes = obj.lighthouseResult.audits['unused-javascript']["details"]["overallSavingsBytes"]
-      var unusedCSSSeconds = obj.lighthouseResult.audits['unused-css-rules']["details"]["overallSavingMs"]
-      var unusedCSSBytes = obj.lighthouseResult.audits['unused-css-rules']["details"]["overallSavingBytes"]
+      var unusedJavascriptSeconds = obj.lighthouseResult.audits['unused-javascript']["details"]["overallSavingsMs"]+" ms";
+      var unusedJavascriptBytes = parseFloat((obj.lighthouseResult.audits['unused-javascript']["details"]["overallSavingsBytes"]/1024).toFixed(2));
+      var unusedCSSSeconds = obj.lighthouseResult.audits['unused-css-rules']["details"]["overallSavingMs"]+" ms";
+      var unusedCSSBytes = parseFloat((obj.lighthouseResult.audits['unused-css-rules']["details"]["overallSavingBytes"]/1024).toFixed(2));
 
     
 
