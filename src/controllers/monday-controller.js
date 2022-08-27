@@ -75,7 +75,7 @@ async function executeAction(req, res) {
     
 
     if(!co2Column){
-      co2Column= await mondayService.createColumn(boardId,"CO2","text");
+      co2Column= await mondayService.createColumn(shortLivedToken,boardId,"CO2","text");
       
     }
     co2ColumnId = co2Column.id;
@@ -84,7 +84,7 @@ async function executeAction(req, res) {
     var co2SWDColumn = allRowAttributes.find(item => item.title.toLowerCase() === "co2 swd");
 
     if(!co2SWDColumn){
-      co2SWDColumn= await mondayService.createColumn(boardId,"CO2 SWD","text");
+      co2SWDColumn= await mondayService.createColumn(shortLivedToken,boardId,"CO2 SWD","text");
       
     }
     co2SWDColumnId = co2SWDColumn.id;
@@ -96,7 +96,7 @@ async function executeAction(req, res) {
     var speedColumn = allRowAttributes.find(item => item.title.toLowerCase() === "speed");
 
     if(!speedColumn){
-      speedColumn= await mondayService.createColumn(boardId,"Speed","text");
+      speedColumn= await mondayService.createColumn(shortLivedToken,boardId,"Speed","text");
       
     }
 
@@ -108,7 +108,7 @@ async function executeAction(req, res) {
     var performanceColumn = allRowAttributes.find(item => item.title.toLowerCase() === "performance");
 
     if(!performanceColumn){
-      performanceColumn = await mondayService.createColumn(boardId,"Perfomance","text");
+      performanceColumn = await mondayService.createColumn(shortLivedToken,boardId,"Perfomance","text");
       
     }
 
@@ -120,7 +120,7 @@ async function executeAction(req, res) {
 
     var unusedJavascriptBytesColumn = allRowAttributes.find(item => item.title.toLowerCase() === "unused javacript");
     if(!unusedJavascriptBytesColumn){
-      unusedJavascriptBytesColumn = await mondayService.createColumn(boardId,"Unused Javacript","text");
+      unusedJavascriptBytesColumn = await mondayService.createColumn(shortLivedToken,boardId,"Unused Javacript","text");
       
     }
     unusedJavascriptBytesColumnId = unusedJavascriptBytesColumn.id
@@ -128,7 +128,7 @@ async function executeAction(req, res) {
     
     var unusedJavascriptSecondsColumn = allRowAttributes.find(item => item.title.toLowerCase() === "unused javacript seconds");
     if(!unusedJavascriptSecondsColumn){
-      unusedJavascriptSecondsColumn = await mondayService.createColumn(boardId,"Unused Javacript Seconds","text");
+      unusedJavascriptSecondsColumn = await mondayService.createColumn(shortLivedToken,boardId,"Unused Javacript Seconds","text");
       
     }
     unusedJavascriptSecondsColumnId = unusedJavascriptSecondsColumn.id
@@ -137,7 +137,7 @@ async function executeAction(req, res) {
 
     var unusedCSSBytesColumn = allRowAttributes.find(item => item.title.toLowerCase() === "unused javacript");
     if(!unusedCSSBytesColumn){
-      unusedCSSBytesColumn = await mondayService.createColumn(boardId,"Unused Javacript","text");
+      unusedCSSBytesColumn = await mondayService.createColumn(shortLivedToken,boardId,"Unused Javacript","text");
       
     }
     unusedCSSBytesColumnId = unusedCSSBytesColumn.id
@@ -145,7 +145,7 @@ async function executeAction(req, res) {
 
     var unusedCSSSecondsColumn = allRowAttributes.find(item => item.title.toLowerCase() === "unused css seconds");
     if(!unusedCSSSecondsColumn){
-      unusedCSSSecondsColumn = await mondayService.createColumn(boardId,"Unused CSS Seconds","text");
+      unusedCSSSecondsColumn = await mondayService.createColumn(shortLivedToken,boardId,"Unused CSS Seconds","text");
       
     }
     unusedCSSSecondsColumnId = unusedCSSSecondsColumn.id
@@ -153,7 +153,7 @@ async function executeAction(req, res) {
 
     var energyColumn = allRowAttributes.find(item => item.title.toLowerCase() === "energy per visit");
     if(!energyColumn){
-      energyColumn = await mondayService.createColumn(boardId,"Energy Per Visit","text");
+      energyColumn = await mondayService.createColumn(shortLivedToken,boardId,"Energy Per Visit","text");
       
     }
     energyPerVisitColumnId = energyColumn.id
@@ -162,7 +162,7 @@ async function executeAction(req, res) {
 
     var emissionPerVistGMColumn = allRowAttributes.find(item => item.title.toLowerCase() === "emission per visit(gms)");
     if(!emissionPerVistGMColumn){
-      emissionPerVistGMColumn = await mondayService.createColumn(boardId,"Energy Per Visit","text");
+      emissionPerVistGMColumn = await mondayService.createColumn(shortLivedToken,boardId,"Energy Per Visit","text");
       
     }
 
@@ -171,7 +171,7 @@ async function executeAction(req, res) {
 
     var annualEnergyColumn = allRowAttributes.find(item => item.title.toLowerCase() === "annual energy");
     if(!annualEnergyColumn){
-      annualEnergyColumn = await mondayService.createColumn(boardId,"Annual Energy","text");
+      annualEnergyColumn = await mondayService.createColumn(shortLivedToken,boardId,"Annual Energy","text");
       
     }
 
@@ -180,7 +180,7 @@ async function executeAction(req, res) {
 
     var annualEmissionGMColumn = allRowAttributes.find(item => item.title.toLowerCase() === "annual emission");
     if(!annualEmissionGMColumn){
-      annualEmissionGMColumn = await mondayService.createColumn(boardId,"Annual Emission","text");
+      annualEmissionGMColumn = await mondayService.createColumn(shortLivedToken,boardId,"Annual Emission","text");
       
     }
 
