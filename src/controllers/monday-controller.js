@@ -179,9 +179,9 @@ async function executeAction(req, res) {
     annualEnergyInKwhColumnId = annualEnergyColumn.id;
 
 
-    var annualEmissionGMColumn = allRowAttributes.find(item => item.title.toLowerCase() === "annual emission(co2e)");
+    var annualEmissionGMColumn = allRowAttributes.find(item => item.title.toLowerCase() === "annual emission (co2e)");
     if(!annualEmissionGMColumn){
-      annualEmissionGMColumn = await mondayService.createColumn(shortLivedToken,boardId,"Annual Emission(CO2e)","text");
+      annualEmissionGMColumn = await mondayService.createColumn(shortLivedToken,boardId,"Annual Emission (CO2e)","text");
       annualEmissionGMColumn = annualEmissionGMColumn.data.create_column 
     }
 
