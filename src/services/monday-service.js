@@ -65,6 +65,8 @@ const createColumn = async (token,boardId, title, type) => {
 
     const mondayClient = initMondayClient({ token });
 
+    console.log({token,boardId,title,type});
+
     const query = `mutation { 
     create_column (board_id: ${boardId}, title: ${title}, column_type: ${type}) {
       id }}`;
