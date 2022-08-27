@@ -2,13 +2,15 @@ const initMondayClient = require('monday-sdk-js');
 
 const { co2 } = require('@tgwf/co2')
 const fetch = require('node-fetch');
+const swd = require('../helpers/sustainable-web-design');
+
   
 //const swd = new SustainableWebDesign();
 
 
 
 const co2Emission = new co2();
-const swd = new co2({model:'swd'});
+//const swd = new co2({model:'swd'});
 
 const getColumnValue = async (token, itemId, columnId) => {
   try {
@@ -236,19 +238,19 @@ function calculateWebFootprint(complete_url){
       var co2Value = co2Emission.perByte(totalBytes, greenHost).toString();
       var co2SWDValue = swd.perVisit(totalBytes, greenHost).toString();
 
-      //var energyPerVisit = swd.energyPerVisit(totalBytes);
+      var energyPerVisit = swd.energyPerVisit(totalBytes);
 
       
 
-      var emissionsPerVisitInGrams = co2Emission.emissionsPerVisitInGrams(totalBytes);
-      var annualEnergyInKwh = co2Emission.annualEnergyInKwh(totalBytes);
-      var annualEmissionsInGrams = co2Emission.annualEmissionsInGrams(totalBytes);
+       var emissionsPerVisitInGrams = co2Emission.emissionsPerVisitInGrams(totalBytes);
+       var annualEnergyInKwh = co2Emission.annualEnergyInKwh(totalBytes);
+       var annualEmissionsInGrams = co2Emission.annualEmissionsInGrams(totalBytes);
 
 
     resolve({
       co2:co2Value,
       co2SWD:co2SWDValue,
-      //energyPerVisit,
+      energyPerVisit,
       emissionsPerVisitInGrams,
       annualEnergyInKwh,
       annualEmissionsInGrams,
