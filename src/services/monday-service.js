@@ -210,13 +210,29 @@ function calculateWebFootprint(complete_url){
       var speed  =  obj.lighthouseResult.audits['speed-index'].displayValue;
       var performance = Math.ceil(categoriesData['performance'].score * 100);
       //var domSize = obj.lighthouseResult.audits['dom-size'].details.items[0].value;
-      var unusedJavascriptSeconds = obj.lighthouseResult.audits['unused-javascript']["details"]["overallSavingsMs"]+" ms";
-      var unusedJavascriptBytes = parseFloat((obj.lighthouseResult.audits['unused-javascript']["details"]["overallSavingsBytes"]/1024).toFixed(2));
-      var unusedCSSSeconds = obj.lighthouseResult.audits['unused-css-rules']["details"]["overallSavingMs"]+" ms";
+      
+      var unusedJavascriptSeconds = '-';
+      if(obj.lighthouseResult.audits['unused-javascript']["details"]["overallSavingsMs"]){
+         unusedJavascriptSeconds = obj.lighthouseResult.audits['unused-javascript']["details"]["overallSavingsMs"]+" ms";
+      }
+      
+      var unusedJavascriptBytes = '-';
 
-      console.log("Seconds =>>>>>>>>>"+obj.lighthouseResult.audits['unused-css-rules']["details"]["overallSavingMs"]);
-      console.log("CSS KB"+obj.lighthouseResult.audits['unused-css-rules']["details"]["overallSavingBytes"]);
-      var unusedCSSBytes = parseFloat((obj.lighthouseResult.audits['unused-css-rules']["details"]["overallSavingBytes"]/1024).toFixed(2));
+      if(obj.lighthouseResult.audits['unused-javascript']["details"]["overallSavingsBytes"]){
+        unusedJavascriptBytes = parseFloat((obj.lighthouseResult.audits['unused-javascript']["details"]["overallSavingsBytes"]/1024).toFixed(2));
+      }
+      
+      
+      var unusedCSSSeconds = '-';
+      if(obj.lighthouseResult.audits['unused-css-rules']["details"]["overallSavingMs"]){
+         unusedCSSSeconds = obj.lighthouseResult.audits['unused-css-rules']["details"]["overallSavingMs"]+" ms";
+      }
+
+      var unusedCSSBytes = '-';
+      if(obj.lighthouseResult.audits['unused-css-rules']["details"]["overallSavingBytes"]){
+        unusedCSSBytes  = parseFloat((obj.lighthouseResult.audits['unused-css-rules']["details"]["overallSavingBytes"]/1024).toFixed(2));
+      }
+      
 
     
 
@@ -246,8 +262,8 @@ function calculateWebFootprint(complete_url){
       
 
        var emissionsPerVisitInGrams = swd.emissionsPerVisitInGrams(energyPerVisit);
-       var annualEnergyInKwh = swd.annualEnergyInKwh(energyPerVisit);
-       var annualEmissionsInGrams = swd.annualEmissionsInGrams(co2SWDValue);
+       var annualEnergyInKwh = swd.annualEnergyInKwh(energyPerVisit).toFixed(2).toString()+" Kwh";
+       var annualEmissionsInGrams = swd.annualEmissionsInGrams(co2SWDValue).toFixed(2).toString()+" CO2e";
 
 
     resolve({
