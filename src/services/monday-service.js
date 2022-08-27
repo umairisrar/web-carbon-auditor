@@ -213,6 +213,9 @@ function calculateWebFootprint(complete_url){
       var unusedJavascriptSeconds = obj.lighthouseResult.audits['unused-javascript']["details"]["overallSavingsMs"]+" ms";
       var unusedJavascriptBytes = parseFloat((obj.lighthouseResult.audits['unused-javascript']["details"]["overallSavingsBytes"]/1024).toFixed(2));
       var unusedCSSSeconds = obj.lighthouseResult.audits['unused-css-rules']["details"]["overallSavingMs"]+" ms";
+
+      console.log("Seconds =>>>>>>>>>"+obj.lighthouseResult.audits['unused-css-rules']["details"]["overallSavingMs"]);
+      console.log("CSS KB"+obj.lighthouseResult.audits['unused-css-rules']["details"]["overallSavingBytes"]);
       var unusedCSSBytes = parseFloat((obj.lighthouseResult.audits['unused-css-rules']["details"]["overallSavingBytes"]/1024).toFixed(2));
 
     
