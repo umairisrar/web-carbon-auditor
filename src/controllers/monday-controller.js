@@ -2,36 +2,6 @@ const mondayService = require('../services/monday-service');
 const transformationService = require('../services/transformation-service');
 const { TRANSFORMATION_TYPES } = require('../constants/transformation');
 
-async function executeActionOld(req, res) {
-
-  
-  const { shortLivedToken } = req.session;
-  const { payload } = req.body;
-
-  try {
-    const { inputFields } = payload;
-    const { boardId, itemId, sourceColumnId, targetColumnId, transformationType } = inputFields;
-
-    const text = await mondayService.getColumnValue(shortLivedToken, itemId, sourceColumnId);
-    if (!text) {
-      return res.status(200).send({});
-    }
-
-    const transformedText = transformationService.transformText(
-      text,
-      transformationType ? transformationType.value : 'TO_UPPER_CASE'
-    );
-
-   
-    await mondayService.changeMultipleColumnValues(shortLivedToken, boardId, itemId, transformedText);
-
-    return res.status(200).send({});
-  } catch (err) {
-    console.error(err);
-    return res.status(500).send({ message: 'internal server error' });
-  }
-}
-
 
 async function executeAction(req, res) {
 
@@ -109,7 +79,7 @@ async function executeAction(req, res) {
     var performanceColumn = allRowAttributes.find(item => item.title.toLowerCase() === "performance");
 
     if(!performanceColumn){
-      performanceColumn = await mondayService.createColumn(shortLivedToken,boardId,"Perfomance","text");
+      performanceColumn = await mondayService.createColumn(shortLivedToken,boardId,"Performance","text");
       performanceColumn = performanceColumn.data.create_column
     }
 
@@ -170,18 +140,18 @@ async function executeAction(req, res) {
     emissionsPerVisitInGramsColumnId = emissionPerVistGMColumn.id;
 
 
-    var annualEnergyColumn = allRowAttributes.find(item => item.title.toLowerCase() === "annual energy (kwh)");
+    var annualEnergyColumn = allRowAttributes.find(item => item.title.toLowerCase() === "annual energy (1000 monthly visitors)");
     if(!annualEnergyColumn){
-      annualEnergyColumn = await mondayService.createColumn(shortLivedToken,boardId,"Annual Energy (kWh)","text");
+      annualEnergyColumn = await mondayService.createColumn(shortLivedToken,boardId,"Annual Energy (1000 Monthly Visitors)","text");
       annualEnergyColumn = annualEnergyColumn.data.create_column
     }
 
     annualEnergyInKwhColumnId = annualEnergyColumn.id;
 
 
-    var annualEmissionGMColumn = allRowAttributes.find(item => item.title.toLowerCase() === "annual emission (co2e)");
+    var annualEmissionGMColumn = allRowAttributes.find(item => item.title.toLowerCase() === "annual emission (1000 monthly visitors)");
     if(!annualEmissionGMColumn){
-      annualEmissionGMColumn = await mondayService.createColumn(shortLivedToken,boardId,"Annual Emission (CO2e)","text");
+      annualEmissionGMColumn = await mondayService.createColumn(shortLivedToken,boardId,"Annual Emission (1000 Monthly Visitors)","text");
       annualEmissionGMColumn = annualEmissionGMColumn.data.create_column 
     }
 
@@ -212,9 +182,6 @@ async function executeAction(req, res) {
     return res.status(500).send({ message: 'internal server error' });
   }
 }
-
-
-
 
 
 async function getRemoteListOptions(req, res) {
