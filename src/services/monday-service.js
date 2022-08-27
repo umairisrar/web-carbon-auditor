@@ -69,8 +69,15 @@ const createColumn = async (token,boardId, title, type) => {
     console.log({token,boardId,title,type});
 
     const query = `mutation { 
-    create_column (board_id: ${boardId}, title: ${title}, column_type: text) {
+    create_column (board_id: ${boardId}, title: ${title}, column_type: ${[type]}) {
       id }}`;
+
+  //    const variables = { boardId, title };
+
+//    const response = await mondayClient.api(query, { variables });
+
+
+
     return await mondayClient.api(query).then(async (res) => {
       await console.log(`col created: ${JSON.stringify(res.data)}`);
     });
