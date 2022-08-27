@@ -72,6 +72,8 @@ const createColumn = async (token,boardId, title, type) => {
     create_column (board_id: ${boardId}, title: ${title}, column_type: text }) {
       id }}`;
 
+
+      console.log(query);
   //    const variables = { boardId, title };
 
 //    const response = await mondayClient.api(query, { variables });
@@ -79,7 +81,7 @@ const createColumn = async (token,boardId, title, type) => {
 
 
     return await mondayClient.api(query).then(async (res) => {
-      await console.log(`col created: ${JSON.stringify(res.data)}`);
+      await console.log(`col created: ${JSON.stringify(res)}`);
     });
   } catch (err) {
     console.error(err);
