@@ -63,12 +63,13 @@ const getRowAtributes = async (token, itemId) => {
 const createColumn = async (token,boardId, title, type) => {
   try {
 
+
     const mondayClient = initMondayClient({ token });
 
     console.log({token,boardId,title,type});
 
     const query = `mutation { 
-    create_column (board_id: ${boardId}, title: ${title}, column_type: ${type}) {
+    create_column (board_id: ${boardId}, title: ${title}, column_type: text) {
       id }}`;
     return await mondayClient.api(query).then(async (res) => {
       await console.log(`col created: ${JSON.stringify(res.data)}`);
