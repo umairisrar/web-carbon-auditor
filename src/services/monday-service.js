@@ -96,10 +96,12 @@ const createColumn = async (token,boardId, title, type) => {
 //    const response = await mondayClient.api(query, { variables });
 
     
+    var resp = await mondayClient.api(query,{variables});
 
-    return await mondayClient.api(query,{variables}).then(async (res) => {
-      await console.log(`col created: ${JSON.stringify(res)}`);
-    });
+    return resp;
+    // return await mondayClient.api(query,{variables}).then(async (res) => {
+    //   await console.log(`col created: ${JSON.stringify(res)}`);
+    // });
   } catch (err) {
     console.error(err);
   }
