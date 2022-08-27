@@ -63,17 +63,25 @@ async function executeAction(req, res) {
     console.log('websiteColumn');
     console.log(websiteColumn);
 
-    var co2Column = allRowAttributes.find(item => item.title.toLowerCase() === "co2");
+
     let co2ColumnId=-1,speedColumnId=-1,performanceColumnId=-1,co2SWDColumnId=-1,
     unusedCSSBytesColumnId=-1,
     unusedCSSSecondsColumnId=-1,unusedJavascriptBytesColumnId=-1,unusedJavascriptSecondsColumnId=-1,
     energyPerVisitColumnId=-1,emissionsPerVisitInGramsColumnId=-1,annualEnergyInKwhColumnId=-1,annualEmissionsInGramsColumnId=-1;
+
+
+
+    var co2Column = allRowAttributes.find(item => item.title.toLowerCase() === "co2");
+    
 
     if(!co2Column){
       co2Column= await mondayService.createColumn(boardId,"CO2","text");
       
     }
     co2ColumnId = co2Column.id;
+
+
+    var co2SWDColumn = allRowAttributes.find(item => item.title.toLowerCase() === "co2 swd");
 
     if(!co2SWDColumn){
       co2SWDColumn= await mondayService.createColumn(boardId,"CO2 SWD","text");
