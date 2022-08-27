@@ -162,7 +162,7 @@ async function executeAction(req, res) {
 
     var emissionPerVistGMColumn = allRowAttributes.find(item => item.title.toLowerCase() === "emission per visit(gms)");
     if(!emissionPerVistGMColumn){
-      emissionPerVistGMColumn = await mondayService.createColumn(shortLivedToken,boardId,"Energy Per Visit","text");
+      emissionPerVistGMColumn = await mondayService.createColumn(shortLivedToken,boardId,"Emission Per Visit","text");
       emissionPerVistGMColumn = emissionPerVistGMColumn.data.create_column.id
     }
 
