@@ -124,6 +124,8 @@ const changeMultipleColumnValues = async (token, boardId, itemId,websiteColumn,d
   try {
     const mondayClient = initMondayClient({ token });
 
+
+    
     let {
       co2ColumnId, speedColumnId, performanceColumnId,
       unusedJavascriptBytesColumnId, unusedJavascriptSecondsColumnId, unusedCSSBytesColumnId,
@@ -162,7 +164,7 @@ const changeMultipleColumnValues = async (token, boardId, itemId,websiteColumn,d
       params.append('fields', 'lighthouseResult.audits.*,lighthouseResult.categories.*.score,lighthouseResult.categories.*.title');
       params.append('prettyPrint', false);
       // I use the mobile strategy, but `desktop` is a valid value too.
-      params.append('strategy', deviceType);
+      params.append('strategy', deviceType.value);
 
       params.append('category', 'PERFORMANCE');
       params.append('category', 'ACCESSIBILITY');
@@ -194,7 +196,7 @@ const changeMultipleColumnValues = async (token, boardId, itemId,websiteColumn,d
         [emissionsPerVisitInGramsColumnId]: byteResult.emissionsPerVisitInGrams,
         [annualEnergyInKwhColumnId]: byteResult.annualEnergyInKwh,
         [annualEmissionsInGramsColumnId]: byteResult.annualEmissionsInGrams,
-        [deviceColumnId]:deviceType
+        [deviceColumnId]:deviceType.value
 
       }
 
@@ -216,7 +218,7 @@ const changeMultipleColumnValues = async (token, boardId, itemId,websiteColumn,d
         [emissionsPerVisitInGramsColumnId]: '-',
         [annualEnergyInKwhColumnId]: '-',
         [annualEmissionsInGramsColumnId]: '-',
-        [deviceColumnId]:deviceType
+        [deviceColumnId]:deviceType.value
 
       }
     }
