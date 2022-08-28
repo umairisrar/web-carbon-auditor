@@ -10,7 +10,7 @@ async function executeAction(req, res) {
   try {
     const { inputFields } = payload;
     const { boardId, itemId,deviceType } = inputFields;
-
+console.log('=========>',deviceType)
     const allRowAttributes = await mondayService.getRowAtributes(shortLivedToken, itemId);
 
     if (!allRowAttributes || allRowAttributes.length<1) {
