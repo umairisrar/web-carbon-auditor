@@ -43,6 +43,7 @@ async function executeAction(req, res) {
 
   if(!isValidUrl(websiteColumn.value)){
 
+    console.log('UPdae change column')
     await mondayService.changeColumnValue(shortLivedToken,boardId,itemId,websiteColumn.id,'Please enter valid URL');
     return res.status(200).send({});
   }
