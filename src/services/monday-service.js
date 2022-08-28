@@ -4,7 +4,8 @@ const { co2 } = require('@tgwf/co2')
 const fetch = require('node-fetch');
 const swd = require('../helpers/sustainable-web-design');
 
-
+  
+//const swd = new SustainableWebDesign();
 
 
 
@@ -132,21 +133,7 @@ const changeMultipleColumnValues = async (token, boardId, itemId,websiteColumn, 
       annualEnergyInKwhColumnId,
       annualEmissionsInGramsColumnId } = auditColumnIds;
 
-    let columnPayload = {
-
-      [co2ColumnId]: byteResult.co2,
-      [speedColumnId]: byteResult.speed,
-      [performanceColumnId]: byteResult.performance,
-      [unusedJavascriptBytesColumnId]: byteResult.unusedJavascriptBytes,
-      [unusedCSSSecondsColumnId]: byteResult.unusedCSSSeconds,
-      [unusedJavascriptSecondsColumnId]: byteResult.unusedJavascriptSeconds,
-      [unusedCSSBytesColumnId]: byteResult.unusedCSSBytes,
-      [energyPerVisitColumnId]: byteResult.energyPerVisit,
-      [emissionsPerVisitInGramsColumnId]: byteResult.emissionsPerVisitInGrams,
-      [annualEnergyInKwhColumnId]: byteResult.annualEnergyInKwh,
-      [annualEmissionsInGramsColumnId]: byteResult.annualEmissionsInGrams
-
-    }
+    let columnPayload = {};
 
     let websiteURL = JSON.parse(websiteColumn.value);
 
