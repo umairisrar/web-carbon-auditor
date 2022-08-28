@@ -161,7 +161,7 @@ const changeMultipleColumnValues = async (token, boardId, itemId,websiteColumn, 
 
 
       var complete_url = psi;
-
+console.log(complete_url);
       var byteResult = await calculateWebFootprint(complete_url);
 
 
