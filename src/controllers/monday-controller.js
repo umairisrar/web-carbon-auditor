@@ -9,7 +9,7 @@ async function executeAction(req, res) {
 
   try {
     const { inputFields } = payload;
-    const { boardId, itemId } = inputFields;
+    const { boardId, itemId,deviceType } = inputFields;
 
     const allRowAttributes = await mondayService.getRowAtributes(shortLivedToken, itemId);
 
@@ -171,9 +171,19 @@ async function executeAction(req, res) {
 
 
 
-    await mondayService.changeMultipleColumnValues(shortLivedToken, boardId, itemId, websiteColumn,auditColumnIds);
+    await mondayService.changeMultipleColumnValues(shortLivedToken, boardId, itemId, websiteColumn,deviceType,auditColumnIds);
 
     return res.status(200).send({});
+  } catch (err) {
+    console.error(err);
+    return res.status(500).send({ message: 'internal server error' });
+  }
+}
+
+async function getRemoteListOptions(req, res) {
+  try {
+    let DEVICE_TYPES = ["Desktop","Mobile"]
+    return res.status(200).send(DEVICE_TYPES);
   } catch (err) {
     console.error(err);
     return res.status(500).send({ message: 'internal server error' });
@@ -183,5 +193,6 @@ async function executeAction(req, res) {
 
 
 module.exports = {
+  getRemoteListOptions,
   executeAction
 };
