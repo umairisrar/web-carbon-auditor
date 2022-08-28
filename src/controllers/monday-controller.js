@@ -1,6 +1,4 @@
 const mondayService = require('../services/monday-service');
-const transformationService = require('../services/transformation-service');
-const { TRANSFORMATION_TYPES } = require('../constants/transformation');
 
 
 async function executeAction(req, res) {
@@ -11,7 +9,7 @@ async function executeAction(req, res) {
 
   try {
     const { inputFields } = payload;
-    const { boardId, itemId, sourceColumnId, targetColumnId, transformationType } = inputFields;
+    const { boardId, itemId } = inputFields;
 
     const allRowAttributes = await mondayService.getRowAtributes(shortLivedToken, itemId);
 
@@ -23,18 +21,33 @@ async function executeAction(req, res) {
     console.log('allRowAttributes');
     console.log(allRowAttributes);
 
-    var websiteColumn = allRowAttributes.find(item => item.title.toLowerCase() === "website");
+    var websiteColumn = allRowAttributes.find(item => item.title.toLowerCase().indexOf("website")>-1 );
 
     if(!websiteColumn){
       return res.status(200).send({});
     }
 
-    
     console.log('websiteColumn');
     console.log(websiteColumn);
 
+    const isValidUrl = urlString=> {
+	  	var urlPattern = new RegExp('^(https?:\\/\\/)?'+ // validate protocol
+	    '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // validate domain name
+	    '((\\d{1,3}\\.){3}\\d{1,3}))'+ // validate OR ip (v4) address
+	    '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // validate port and path
+	    '(\\?[;&a-z\\d%_.~+=-]*)?'+ // validate query string
+	    '(\\#[-a-z\\d_]*)?$','i'); // validate fragment locator
+	  return !!urlPattern.test(urlString);
+	}
 
-    let co2ColumnId=-1,speedColumnId=-1,performanceColumnId=-1,co2SWDColumnId=-1,
+
+  if(!isValidUrl(websiteColumn.value)){
+
+    await mondayService.changeColumnValue(shortLivedToken,boardId,itemId,websiteColumn.id,'Please enter valid URL');
+    return res.status(200).send({});
+  }
+
+    let co2ColumnId=-1,speedColumnId=-1,performanceColumnId=-1,
     unusedCSSBytesColumnId=-1,
     unusedCSSSecondsColumnId=-1,unusedJavascriptBytesColumnId=-1,unusedJavascriptSecondsColumnId=-1,
     energyPerVisitColumnId=-1,
@@ -52,17 +65,6 @@ async function executeAction(req, res) {
     co2ColumnId = co2Column.id;
 
 
-    var co2SWDColumn = allRowAttributes.find(item => item.title.toLowerCase() === "co2 swd");
-
-    if(!co2SWDColumn){
-      co2SWDColumn= await mondayService.createColumn(shortLivedToken,boardId,"CO2 SWD","text");
-      co2SWDColumn = co2SWDColumn.data.create_column
-    }
-    co2SWDColumnId = co2SWDColumn.id;
-
-
-    console.log('co2SWDColumn');
-    console.log(co2SWDColumn);
     
     var speedColumn = allRowAttributes.find(item => item.title.toLowerCase() === "speed");
 
@@ -161,14 +163,26 @@ async function executeAction(req, res) {
 
 
     let auditColumnIds= {
-      co2ColumnId,speedColumnId,performanceColumnId,
-      unusedJavascriptBytesColumnId,unusedJavascriptSecondsColumnId,unusedCSSBytesColumnId,
-      unusedCSSSecondsColumnId,
-      
+
+      co2ColumnId,
       energyPerVisitColumnId,
       emissionsPerVisitInGramsColumnId,
+    
+      speedColumnId,
+      performanceColumnId,
+      
+      unusedJavascriptBytesColumnId,
+      unusedJavascriptSecondsColumnId,
+      
+      unusedCSSBytesColumnId,
+      unusedCSSSecondsColumnId,
+      
+      
+      
       annualEnergyInKwhColumnId,
-      co2SWDColumnId,annualEmissionsInGramsColumnId};
+      annualEmissionsInGramsColumnId
+    
+    };
 
    
     console.log('Audit Column Ids');
@@ -184,16 +198,7 @@ async function executeAction(req, res) {
 }
 
 
-async function getRemoteListOptions(req, res) {
-  try {
-    return res.status(200).send(TRANSFORMATION_TYPES);
-  } catch (err) {
-    console.error(err);
-    return res.status(500).send({ message: 'internal server error' });
-  }
-}
 
 module.exports = {
-  executeAction,
-  getRemoteListOptions,
+  executeAction
 };
