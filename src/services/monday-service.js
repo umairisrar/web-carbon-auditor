@@ -317,7 +317,7 @@ function calculateWebFootprint(obj){
 
     resolve({
       co2:co2Value.toFixed(2).toString(),
-      energyPerVisit:energyPerVisit.toFixed(2).toString(),
+      energyPerVisit:energyPerVisit.toString(),
       emissionsPerVisitInGrams:emissionsPerVisitInGrams.toFixed(2).toString(),
       annualEnergyInKwh,
       annualEmissionsInGrams,
