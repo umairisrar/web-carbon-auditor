@@ -35,7 +35,8 @@ async function executeAction(req, res) {
     unusedCSSBytesColumnId=-1,
     unusedCSSSecondsColumnId=-1,unusedJavascriptBytesColumnId=-1,unusedJavascriptSecondsColumnId=-1,
     energyPerVisitColumnId=-1,
-    emissionsPerVisitInGramsColumnId=-1,annualEnergyInKwhColumnId=-1,annualEmissionsInGramsColumnId=-1;
+    emissionsPerVisitInGramsColumnId=-1,annualEnergyInKwhColumnId=-1,
+    annualEmissionsInGramsColumnId=-1,deviceColumnId=-1;
 
 
 
@@ -143,6 +144,17 @@ async function executeAction(req, res) {
 
     annualEmissionsInGramsColumnId = annualEmissionGMColumn.id;
 
+
+    var deviceColumn = allRowAttributes.find(item => item.title.toLowerCase() === "device");
+    
+
+    if(!deviceColumn){
+      deviceColumn= await mondayService.createColumn(shortLivedToken,boardId,"Device","text");
+      deviceColumn = deviceColumn.data.create_column
+    }
+    deviceColumnId = deviceColumn.id;
+
+
     let auditColumnIds = {
 
       co2ColumnId,
@@ -161,7 +173,8 @@ async function executeAction(req, res) {
 
 
       annualEnergyInKwhColumnId,
-      annualEmissionsInGramsColumnId
+      annualEmissionsInGramsColumnId,
+      deviceColumnId
 
     };
 
