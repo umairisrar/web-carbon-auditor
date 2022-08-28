@@ -300,9 +300,9 @@ function calculateWebFootprint(obj){
       const greenHost = false // Is the data transferred from a green host?
       
       //var co2Value = co2Emission.perByte(totalBytes, greenHost).toString();
-      var co2Value = swd.perVisit(totalBytes, greenHost).toFixed(2).toString();
+      var co2Value = swd.perVisit(totalBytes, greenHost);
 
-      var energyPerVisit = swd.energyPerVisit(totalBytes).toFixed(2).toString();
+      var energyPerVisit = swd.energyPerVisit(totalBytes);
 
       
 
@@ -312,9 +312,9 @@ function calculateWebFootprint(obj){
 
 
     resolve({
-      co2:co2Value,
-      energyPerVisit,
-      emissionsPerVisitInGrams,
+      co2:co2Value.toFixed(2).toString(),
+      energyPerVisit:energyPerVisit.toFixed(2).toString(),
+      emissionsPerVisitInGrams:emissionsPerVisitInGrams.toFixed(2).toString(),
       annualEnergyInKwh,
       annualEmissionsInGrams,
       speed,
