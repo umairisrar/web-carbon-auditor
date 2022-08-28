@@ -120,7 +120,7 @@ const isValidUrl = urlString=> {
 return !!urlPattern.test(urlString);
 }
 
-const changeMultipleColumnValues = async (token, boardId, itemId,websiteColumn, auditColumnIds) => {
+const changeMultipleColumnValues = async (token, boardId, itemId,websiteColumn,deviceType, auditColumnIds) => {
   try {
     const mondayClient = initMondayClient({ token });
 
@@ -162,7 +162,7 @@ const changeMultipleColumnValues = async (token, boardId, itemId,websiteColumn, 
       params.append('fields', 'lighthouseResult.audits.*,lighthouseResult.categories.*.score,lighthouseResult.categories.*.title');
       params.append('prettyPrint', false);
       // I use the mobile strategy, but `desktop` is a valid value too.
-      params.append('strategy', 'desktop');
+      params.append('strategy', deviceType.toLowerCase());
 
       params.append('category', 'PERFORMANCE');
       params.append('category', 'ACCESSIBILITY');
