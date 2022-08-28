@@ -182,7 +182,11 @@ async function executeAction(req, res) {
 
 async function getRemoteListOptions(req, res) {
   try {
-    let DEVICE_TYPES = ["Desktop","Mobile"]
+
+    let DEVICE_TYPES =[{ title: 'Desktop', value: 'desktop' },
+    { title: 'Mobile', value: 'mobile' }];
+
+    
     return res.status(200).send(DEVICE_TYPES);
   } catch (err) {
     console.error(err);
