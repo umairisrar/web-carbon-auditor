@@ -162,7 +162,7 @@ const changeMultipleColumnValues = async (token, boardId, itemId,websiteColumn,d
       params.append('fields', 'lighthouseResult.audits.*,lighthouseResult.categories.*.score,lighthouseResult.categories.*.title');
       params.append('prettyPrint', false);
       // I use the mobile strategy, but `desktop` is a valid value too.
-      params.append('strategy', deviceType.toLowerCase());
+      params.append('strategy', deviceType);
 
       params.append('category', 'PERFORMANCE');
       params.append('category', 'ACCESSIBILITY');
