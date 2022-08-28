@@ -1,4 +1,4 @@
-# carbon-app-backend
+# web-carbon-auditor
 
 Monday App "Web Carbon Auditor backend"
 
