@@ -45,7 +45,7 @@ async function executeAction(req, res) {
 
     console.log('UPdae change column')
     console.log(shortLivedToken,boardId,itemId,websiteColumn.id)
-    let data = await mondayService.changeColumnValue(shortLivedToken,boardId,itemId,websiteColumn.id,'Please enter valid URL');
+    let data = await mondayService.changeColumnValue(shortLivedToken,boardId,itemId,websiteColumn.id,'"Please enter valid URL"');
 
     console.log(data);
     return res.status(200).send({});
