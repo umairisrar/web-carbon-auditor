@@ -3,9 +3,14 @@ const mondayRoutes = require('./monday');
 
 router.use(mondayRoutes);
 
-router.get('/', function (req, res) {
+router.get('/',  async function (req, res) {
   res.json(getHealth());
 });
+
+
+
+
+
 
 router.get('/health', function (req, res) {
   res.json(getHealth());
