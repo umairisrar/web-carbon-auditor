@@ -157,7 +157,6 @@ const changeMultipleColumnValues = async (token, boardId, itemId,websiteColumn, 
     let columnPayload = {
 
       [co2ColumnId] :byteResult.co2,
-      [co2SWDColumnId]:byteResult.co2SWD,
       [speedColumnId]:byteResult.speed,
       [performanceColumnId]:byteResult.performance,
       [unusedJavascriptBytesColumnId]:byteResult.unusedJavascriptBytes,
@@ -254,8 +253,8 @@ function calculateWebFootprint(complete_url){
 
       const greenHost = false // Is the data transferred from a green host?
       
-      var co2Value = co2Emission.perByte(totalBytes, greenHost).toString();
-      var co2SWDValue = swd.perVisit(totalBytes, greenHost).toString();
+      //var co2Value = co2Emission.perByte(totalBytes, greenHost).toString();
+      var co2Value = swd.perVisit(totalBytes, greenHost).toString();
 
       var energyPerVisit = swd.energyPerVisit(totalBytes);
 
@@ -263,12 +262,11 @@ function calculateWebFootprint(complete_url){
 
        var emissionsPerVisitInGrams = swd.emissionsPerVisitInGrams(energyPerVisit);
        var annualEnergyInKwh = swd.annualEnergyInKwh(energyPerVisit).toFixed(2).toString()+" Kwh";
-       var annualEmissionsInGrams = swd.annualEmissionsInGrams(co2SWDValue).toFixed(2).toString()+" CO2e";
+       var annualEmissionsInGrams = swd.annualEmissionsInGrams(co2Value).toFixed(2).toString()+" CO2e";
 
 
     resolve({
       co2:co2Value,
-      co2SWD:co2SWDValue,
       energyPerVisit,
       emissionsPerVisitInGrams,
       annualEnergyInKwh,
