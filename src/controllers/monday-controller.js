@@ -30,26 +30,6 @@ async function executeAction(req, res) {
     console.log('websiteColumn');
     console.log(websiteColumn);
 
-    const isValidUrl = urlString=> {
-	  	var urlPattern = new RegExp('^(https?:\\/\\/)?'+ // validate protocol
-	    '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // validate domain name
-	    '((\\d{1,3}\\.){3}\\d{1,3}))'+ // validate OR ip (v4) address
-	    '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // validate port and path
-	    '(\\?[;&a-z\\d%_.~+=-]*)?'+ // validate query string
-	    '(\\#[-a-z\\d_]*)?$','i'); // validate fragment locator
-	  return !!urlPattern.test(urlString);
-	}
-
-
-  if(!isValidUrl(JSON.parse(websiteColumn.value))){
-
-    console.log('UPdae change column')
-    console.log(shortLivedToken,boardId,itemId,websiteColumn.id)
-    let data = await mondayService.changeColumnValue(shortLivedToken,boardId,itemId,websiteColumn.id,'"Please enter valid URL"');
-
-    console.log(data);
-    return res.status(200).send({});
-  }
 
     let co2ColumnId=-1,speedColumnId=-1,performanceColumnId=-1,
     unusedCSSBytesColumnId=-1,
@@ -163,34 +143,33 @@ async function executeAction(req, res) {
 
     annualEmissionsInGramsColumnId = annualEmissionGMColumn.id;
 
-
-
-
-    let auditColumnIds= {
+    let auditColumnIds = {
 
       co2ColumnId,
       energyPerVisitColumnId,
       emissionsPerVisitInGramsColumnId,
-    
+
       speedColumnId,
       performanceColumnId,
-      
+
       unusedJavascriptBytesColumnId,
       unusedJavascriptSecondsColumnId,
-      
+
       unusedCSSBytesColumnId,
       unusedCSSSecondsColumnId,
-      
-      
-      
+
+
+
       annualEnergyInKwhColumnId,
       annualEmissionsInGramsColumnId
-    
+
     };
 
    
     console.log('Audit Column Ids');
     console.log(auditColumnIds);
+
+
 
     await mondayService.changeMultipleColumnValues(shortLivedToken, boardId, itemId, websiteColumn,auditColumnIds);
 
