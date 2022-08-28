@@ -4,8 +4,7 @@ const { co2 } = require('@tgwf/co2')
 const fetch = require('node-fetch');
 const swd = require('../helpers/sustainable-web-design');
 
-  
-//const swd = new SustainableWebDesign();
+
 
 
 
@@ -110,67 +109,113 @@ const createColumn = async (token,boardId, title, type) => {
 };
 
 
-
+const isValidUrl = urlString=> {
+  var urlPattern = new RegExp('^(https?:\\/\\/)?'+ // validate protocol
+  '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // validate domain name
+  '((\\d{1,3}\\.){3}\\d{1,3}))'+ // validate OR ip (v4) address
+  '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // validate port and path
+  '(\\?[;&a-z\\d%_.~+=-]*)?'+ // validate query string
+  '(\\#[-a-z\\d_]*)?$','i'); // validate fragment locator
+return !!urlPattern.test(urlString);
+}
 
 const changeMultipleColumnValues = async (token, boardId, itemId,websiteColumn, auditColumnIds) => {
   try {
     const mondayClient = initMondayClient({ token });
 
-  let websiteURL = JSON.parse(websiteColumn.value);
-  const API_KEY = process.env.PSI_API_KEY;
-  
-  const params = new URLSearchParams();
-  params.append('url', websiteURL);
-  params.append('key', API_KEY);
- 
-  params.append('fields', 'lighthouseResult.audits.*,lighthouseResult.categories.*.score,lighthouseResult.categories.*.title');
-  params.append('prettyPrint', false);
-  // I use the mobile strategy, but `desktop` is a valid value too.
-  params.append('strategy', 'mobile');
-  
-  params.append('category', 'PERFORMANCE');
-  params.append('category', 'ACCESSIBILITY');
-  params.append('category', 'BEST-PRACTICES');
-  params.append('category', 'SEO');
-
-
-    const psi = `https://www.googleapis.com/pagespeedonline/v5/runPagespeed?${params.toString()}`;
-
-    
-
-    var complete_url = psi ;
-
-    var byteResult = await calculateWebFootprint(complete_url);
-
-   // let {co2ColumnId,speedColumnId,performanceColumnId} = auditColumnIds;
-
-    let  {
-      co2ColumnId,speedColumnId,performanceColumnId,
-      unusedJavascriptBytesColumnId,unusedJavascriptSecondsColumnId,unusedCSSBytesColumnId,
+    let {
+      co2ColumnId, speedColumnId, performanceColumnId,
+      unusedJavascriptBytesColumnId, unusedJavascriptSecondsColumnId, unusedCSSBytesColumnId,
       unusedCSSSecondsColumnId,
-       energyPerVisitColumnId,
-       emissionsPerVisitInGramsColumnId,
+      energyPerVisitColumnId,
+      emissionsPerVisitInGramsColumnId,
       annualEnergyInKwhColumnId,
-      co2SWDColumnId,annualEmissionsInGramsColumnId} = auditColumnIds;
-    
+      annualEmissionsInGramsColumnId } = auditColumnIds;
 
     let columnPayload = {
 
-      [co2ColumnId] :byteResult.co2,
-      [speedColumnId]:byteResult.speed,
-      [performanceColumnId]:byteResult.performance,
-      [unusedJavascriptBytesColumnId]:byteResult.unusedJavascriptBytes,
-      [unusedCSSSecondsColumnId]:byteResult.unusedCSSSeconds,
-      [unusedJavascriptSecondsColumnId]:byteResult.unusedJavascriptSeconds,
-      [unusedCSSBytesColumnId]:byteResult.unusedCSSBytes,
-      [energyPerVisitColumnId]:byteResult.energyPerVisit,
-      [emissionsPerVisitInGramsColumnId]:byteResult.emissionsPerVisitInGrams,
-      [annualEnergyInKwhColumnId]:byteResult.annualEnergyInKwh,
-      [annualEmissionsInGramsColumnId]:byteResult.annualEmissionsInGrams
+      [co2ColumnId]: byteResult.co2,
+      [speedColumnId]: byteResult.speed,
+      [performanceColumnId]: byteResult.performance,
+      [unusedJavascriptBytesColumnId]: byteResult.unusedJavascriptBytes,
+      [unusedCSSSecondsColumnId]: byteResult.unusedCSSSeconds,
+      [unusedJavascriptSecondsColumnId]: byteResult.unusedJavascriptSeconds,
+      [unusedCSSBytesColumnId]: byteResult.unusedCSSBytes,
+      [energyPerVisitColumnId]: byteResult.energyPerVisit,
+      [emissionsPerVisitInGramsColumnId]: byteResult.emissionsPerVisitInGrams,
+      [annualEnergyInKwhColumnId]: byteResult.annualEnergyInKwh,
+      [annualEmissionsInGramsColumnId]: byteResult.annualEmissionsInGrams
 
     }
 
-    
+    let websiteURL = JSON.parse(websiteColumn.value);
+
+    if (isValidUrl(websiteURL)) {
+      const API_KEY = process.env.PSI_API_KEY;
+
+      const params = new URLSearchParams();
+      params.append('url', websiteURL);
+      params.append('key', API_KEY);
+
+      params.append('fields', 'lighthouseResult.audits.*,lighthouseResult.categories.*.score,lighthouseResult.categories.*.title');
+      params.append('prettyPrint', false);
+      // I use the mobile strategy, but `desktop` is a valid value too.
+      params.append('strategy', 'mobile');
+
+      params.append('category', 'PERFORMANCE');
+      params.append('category', 'ACCESSIBILITY');
+      params.append('category', 'BEST-PRACTICES');
+      params.append('category', 'SEO');
+
+
+      const psi = `https://www.googleapis.com/pagespeedonline/v5/runPagespeed?${params.toString()}`;
+
+
+
+      var complete_url = psi;
+
+      var byteResult = await calculateWebFootprint(complete_url);
+
+
+
+      columnPayload = {
+
+        [co2ColumnId]: byteResult.co2,
+        [speedColumnId]: byteResult.speed,
+        [performanceColumnId]: byteResult.performance,
+        [unusedJavascriptBytesColumnId]: byteResult.unusedJavascriptBytes,
+        [unusedCSSSecondsColumnId]: byteResult.unusedCSSSeconds,
+        [unusedJavascriptSecondsColumnId]: byteResult.unusedJavascriptSeconds,
+        [unusedCSSBytesColumnId]: byteResult.unusedCSSBytes,
+        [energyPerVisitColumnId]: byteResult.energyPerVisit,
+        [emissionsPerVisitInGramsColumnId]: byteResult.emissionsPerVisitInGrams,
+        [annualEnergyInKwhColumnId]: byteResult.annualEnergyInKwh,
+        [annualEmissionsInGramsColumnId]: byteResult.annualEmissionsInGrams
+
+      }
+
+
+
+    } else {
+      columnPayload = {
+
+        [co2ColumnId]: '-',
+        [speedColumnId]: '-',
+        [performanceColumnId]: '-',
+        [unusedJavascriptBytesColumnId]: '-',
+        [unusedCSSSecondsColumnId]: '-',
+        [unusedJavascriptSecondsColumnId]: '-',
+        [unusedCSSBytesColumnId]: '-',
+        [energyPerVisitColumnId]: '-',
+        [emissionsPerVisitInGramsColumnId]: '-',
+        [annualEnergyInKwhColumnId]: '-',
+        [annualEmissionsInGramsColumnId]: '-'
+
+      }
+    }
+
+
+
 
     var columnvalues = JSON.stringify(columnPayload)
 
@@ -179,11 +224,11 @@ const changeMultipleColumnValues = async (token, boardId, itemId,websiteColumn, 
     console.log(columnvalues);
 
     const query = `mutation change_multiple_column_values($boardId: Int!, $itemId: Int!, $columnvalues: JSON!) {
-      change_multiple_column_values(board_id: $boardId, item_id: $itemId, column_values: $columnvalues) {
-          id
+        change_multiple_column_values(board_id: $boardId, item_id: $itemId, column_values: $columnvalues) {
+            id
+          }
         }
-      }
-      `;
+        `;
 
     const variables = { boardId, itemId, columnvalues };
 
@@ -254,9 +299,9 @@ function calculateWebFootprint(complete_url){
       const greenHost = false // Is the data transferred from a green host?
       
       //var co2Value = co2Emission.perByte(totalBytes, greenHost).toString();
-      var co2Value = swd.perVisit(totalBytes, greenHost).toString();
+      var co2Value = swd.perVisit(totalBytes, greenHost).toFixed(2).toString();
 
-      var energyPerVisit = swd.energyPerVisit(totalBytes);
+      var energyPerVisit = swd.energyPerVisit(totalBytes).toFixed(2).toString();
 
       
 
