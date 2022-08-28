@@ -184,8 +184,10 @@ const changeMultipleColumnValues = async (token, boardId, itemId,websiteColumn, 
 
 
     } else {
-      columnPayload = {
 
+      var websiteColumnId = websiteColumn.id;
+      columnPayload = {
+        [websiteColumnId]:'"Please enter Valid URL',
         [co2ColumnId]: '-',
         [speedColumnId]: '-',
         [performanceColumnId]: '-',
