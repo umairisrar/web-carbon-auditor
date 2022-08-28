@@ -2,17 +2,15 @@ require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const routes = require('./routes');
-//const { createTunnel } = require('./helpers/tunnel');
 
-const PORT = process.env.PORT || 8080;
 
+const { PORT: port } = process.env;
 const app = express();
 
 app.use(bodyParser.json());
 app.use(routes);
-
-app.listen(PORT, () => {
- // createTunnel(port);
+app.listen(port, () => {
+console.log('Server started...')
 });
 
 module.exports = app;
