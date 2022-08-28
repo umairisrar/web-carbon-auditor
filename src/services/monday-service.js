@@ -131,7 +131,7 @@ const changeMultipleColumnValues = async (token, boardId, itemId,websiteColumn,d
       energyPerVisitColumnId,
       emissionsPerVisitInGramsColumnId,
       annualEnergyInKwhColumnId,
-      annualEmissionsInGramsColumnId } = auditColumnIds;
+      annualEmissionsInGramsColumnId,deviceColumnId } = auditColumnIds;
 
     let columnPayload = {};
 
@@ -193,7 +193,8 @@ const changeMultipleColumnValues = async (token, boardId, itemId,websiteColumn,d
         [energyPerVisitColumnId]: byteResult.energyPerVisit,
         [emissionsPerVisitInGramsColumnId]: byteResult.emissionsPerVisitInGrams,
         [annualEnergyInKwhColumnId]: byteResult.annualEnergyInKwh,
-        [annualEmissionsInGramsColumnId]: byteResult.annualEmissionsInGrams
+        [annualEmissionsInGramsColumnId]: byteResult.annualEmissionsInGrams,
+        [deviceColumnId]:deviceType
 
       }
 
@@ -214,7 +215,8 @@ const changeMultipleColumnValues = async (token, boardId, itemId,websiteColumn,d
         [energyPerVisitColumnId]: '-',
         [emissionsPerVisitInGramsColumnId]: '-',
         [annualEnergyInKwhColumnId]: '-',
-        [annualEmissionsInGramsColumnId]: '-'
+        [annualEmissionsInGramsColumnId]: '-',
+        [deviceColumnId]:deviceType
 
       }
     }
