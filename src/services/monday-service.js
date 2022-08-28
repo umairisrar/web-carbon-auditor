@@ -116,7 +116,7 @@ const changeMultipleColumnValues = async (token, boardId, itemId,websiteColumn, 
   try {
     const mondayClient = initMondayClient({ token });
 
-  let websiteURL = JSON.parse(websiteColumn.value).url;
+  let websiteURL = JSON.parse(websiteColumn.value);
   const API_KEY = process.env.PSI_API_KEY;
   
   const params = new URLSearchParams();
