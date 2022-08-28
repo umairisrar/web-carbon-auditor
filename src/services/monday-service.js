@@ -139,6 +139,20 @@ const changeMultipleColumnValues = async (token, boardId, itemId,websiteColumn, 
 
     console.log(websiteURL);
     if (isValidUrl(websiteURL)) {
+
+      if(!websiteURL.startsWith('https://')){
+        
+        if (websiteURL.startsWith('http://')) {
+
+          websiteURL = websiteURL.replace('http','https')
+
+        }else{
+          websiteURL = "https://"+websiteURL
+        }
+
+        
+      }
+
       const API_KEY = process.env.PSI_API_KEY;
 
       const params = new URLSearchParams();
@@ -148,7 +162,7 @@ const changeMultipleColumnValues = async (token, boardId, itemId,websiteColumn, 
       params.append('fields', 'lighthouseResult.audits.*,lighthouseResult.categories.*.score,lighthouseResult.categories.*.title');
       params.append('prettyPrint', false);
       // I use the mobile strategy, but `desktop` is a valid value too.
-      params.append('strategy', 'mobile');
+      params.append('strategy', 'desktop');
 
       params.append('category', 'PERFORMANCE');
       params.append('category', 'ACCESSIBILITY');
@@ -157,12 +171,13 @@ const changeMultipleColumnValues = async (token, boardId, itemId,websiteColumn, 
 
 
       const psi = `https://www.googleapis.com/pagespeedonline/v5/runPagespeed?${params.toString()}`;
-
-
-
       var complete_url = psi;
-console.log(complete_url);
-      var byteResult = await calculateWebFootprint(complete_url);
+      console.log(complete_url);
+
+      var psiResponse =  await fetch(complete_url).catch(err => console.log('Request Failed', err.message)); 
+      var obj = await psiResponse.json()
+
+      var byteResult = await calculateWebFootprint(obj);
 
 
 
@@ -230,14 +245,10 @@ console.log(complete_url);
 };
 
 
-function calculateWebFootprint(complete_url){
+function calculateWebFootprint(obj){
 
   return new Promise(async(resolve,reject)=>{
    
-
-     var response =  await fetch(complete_url).catch(err => console.log('Request Failed', err.message)); 
-      var obj = await response.json()
-      
       var categoriesData = obj.lighthouseResult.categories;
 
       var totalBytes = obj.lighthouseResult.audits["total-byte-weight"].numericValue;
