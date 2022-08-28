@@ -41,7 +41,7 @@ async function executeAction(req, res) {
 	}
 
 
-  if(!isValidUrl(websiteColumn.value)){
+  if(!isValidUrl(JSON.parse(websiteColumn.value))){
 
     console.log('UPdae change column')
     console.log(shortLivedToken,boardId,itemId,websiteColumn.id)
