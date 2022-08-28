@@ -137,6 +137,7 @@ const changeMultipleColumnValues = async (token, boardId, itemId,websiteColumn, 
 
     let websiteURL = JSON.parse(websiteColumn.value);
 
+    console.log(websiteURL);
     if (isValidUrl(websiteURL)) {
       const API_KEY = process.env.PSI_API_KEY;
 
