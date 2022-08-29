@@ -133,7 +133,7 @@ const changeMultipleColumnValues = async (token, boardId, itemId, websiteColumn,
       energyPerVisitColumnId,
       transferSizeInKBColumnId ,
       annualEnergyInKwhColumnId,
-      annualEmissionsInGramsColumnId, deviceColumnId } = auditColumnIds;
+      annualEmissionsInGramsColumnId, deviceColumnId, greenHostingColumnId } = auditColumnIds;
 
     let columnPayload = {};
 
@@ -174,7 +174,8 @@ const changeMultipleColumnValues = async (token, boardId, itemId, websiteColumn,
           [annualEnergyInKwhColumnId]: '-',
           [annualEmissionsInGramsColumnId]: '-',
           [transferSizeInKBColumnId]: '-',
-          [deviceColumnId]: deviceType.value
+          [deviceColumnId]: deviceType.value,
+          [greenHostingColumnId]: '-',
 
         }
       } else {
@@ -192,7 +193,8 @@ const changeMultipleColumnValues = async (token, boardId, itemId, websiteColumn,
           [transferSizeInKBColumnId]: byteResult.transferSizeInKB,
           [annualEnergyInKwhColumnId]: byteResult.annualEnergyInKwh,
           [annualEmissionsInGramsColumnId]: byteResult.annualEmissionsInGrams,
-          [deviceColumnId]: deviceType.value
+          [deviceColumnId]: deviceType.value,
+          [greenHostingColumnId]: byteResult.isGreen,
 
         }
       }
@@ -217,6 +219,7 @@ const changeMultipleColumnValues = async (token, boardId, itemId, websiteColumn,
         [annualEnergyInKwhColumnId]: '-',
         [annualEmissionsInGramsColumnId]: '-',
         [transferSizeInKBColumnId]: '-',
+        [greenHostingColumnId]: '-',
         [deviceColumnId]: deviceType.value
 
       }
@@ -367,6 +370,7 @@ function calculateWebFootprint(url, deviceType) {
     var annualEnergyInKwh = swd.annualEnergyInKwh(energyPerVisit).toFixed(2).toString() ;
     var annualEmissionsInGrams = swd.annualEmissionsInGrams(co2Value).toFixed(2).toString();
 
+    var isGreen = isGreenHost?'Yes':'No';
 
     resolve({
       co2: co2Value.toFixed(2).toString(),
@@ -379,7 +383,8 @@ function calculateWebFootprint(url, deviceType) {
       unusedJavascriptSeconds,
       unusedJavascriptBytes,
       unusedCSSSeconds,
-      unusedCSSBytes
+      unusedCSSBytes,
+      isGreen
     });
 
 
