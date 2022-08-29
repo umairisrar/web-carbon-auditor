@@ -188,7 +188,7 @@ const changeMultipleColumnValues = async (token, boardId, itemId, websiteColumn,
           [unusedJavascriptSecondsColumnId]: byteResult.unusedJavascriptSeconds,
           [unusedCSSBytesColumnId]: byteResult.unusedCSSBytes,
           [energyPerVisitColumnId]: byteResult.energyPerVisit,
-          [emissionsPerVisitInGramsColumnId]: byteResult.emissionsPerVisitInGrams,
+          [transferSizeInKBColumnId]: byteResult.transferSizeInKB,
           [annualEnergyInKwhColumnId]: byteResult.annualEnergyInKwh,
           [annualEmissionsInGramsColumnId]: byteResult.annualEmissionsInGrams,
           [deviceColumnId]: deviceType.value
@@ -273,9 +273,6 @@ function getGooglePageSpeedInsightsData(websiteURL, deviceType) {
     var complete_url = psi;
     console.log(complete_url);
 
-
-
-
     var psiResponse = await fetch(complete_url).catch(err => console.log('Request Failed', err.message));
     var obj = await psiResponse.json()
     resolve(obj);
@@ -292,6 +289,7 @@ function getGreenWeb(url) {
     const GREEN_FOUNDATION_API_ENDPOINT = "https://api.thegreenwebfoundation.org/greencheck";
     var gfRes = await fetch(`${GREEN_FOUNDATION_API_ENDPOINT}/${parsedURL.host}`);
     var result = await gfRes.json();
+    console.log('Green Resu',result);
     resolve(result);
 
   })
@@ -324,7 +322,7 @@ function calculateWebFootprint(url, deviceType) {
 
     var unusedJavascriptSeconds = '-';
     if (pagespeedapiObj.lighthouseResult.audits['unused-javascript']["details"]["overallSavingsMs"]) {
-      unusedJavascriptSeconds = pagespeedapiObj.lighthouseResult.audits['unused-javascript']["details"]["overallSavingsMs"] + " ms";
+      unusedJavascriptSeconds = pagespeedapiObj.lighthouseResult.audits['unused-javascript']["details"]["overallSavingsMs"] ;
     }
 
     var unusedJavascriptBytes = '-';
@@ -336,7 +334,7 @@ function calculateWebFootprint(url, deviceType) {
 
     var unusedCSSSeconds = '-';
     if (pagespeedapiObj.lighthouseResult.audits['unused-css-rules']["details"]["overallSavingMs"]) {
-      unusedCSSSeconds = pagespeedapiObj.lighthouseResult.audits['unused-css-rules']["details"]["overallSavingMs"] + " ms";
+      unusedCSSSeconds = pagespeedapiObj.lighthouseResult.audits['unused-css-rules']["details"]["overallSavingMs"] ;
     }
 
     var unusedCSSBytes = '-';
@@ -353,23 +351,25 @@ function calculateWebFootprint(url, deviceType) {
 
     console.log("energyPerVisit=>" + energyPerVisit);
 
-    var emissionsPerVisitInGrams = null;
-    if (isGreenHost)
-      emissionsPerVisitInGrams = swd.emissionsPerVisitInGrams(energyPerVisit, swd.RENEWABLES_INTENSITY);
-    else
-      emissionsPerVisitInGrams = swd.emissionsPerVisitInGrams(energyPerVisit);
+    // var emissionsPerVisitInGrams = null;
+    // if (isGreenHost)
+    //   emissionsPerVisitInGrams = swd.emissionsPerVisitInGrams(energyPerVisit, swd.RENEWABLES_INTENSITY);
+    // else
+    //   emissionsPerVisitInGrams = swd.emissionsPerVisitInGrams(energyPerVisit);
 
 
-    console.log("emissionsPerVisitInGrams=>" + emissionsPerVisitInGrams);
+    // console.log("emissionsPerVisitInGrams=>" + emissionsPerVisitInGrams);
 
-    var annualEnergyInKwh = swd.annualEnergyInKwh(energyPerVisit).toFixed(2).toString() + " Kwh";
-    var annualEmissionsInGrams = swd.annualEmissionsInGrams(co2Value).toFixed(2).toString() + " CO2e";
+    var transferSizeInKB = parseFloat(totalBytes/1024).toFixed(2).toString();
+
+    var annualEnergyInKwh = swd.annualEnergyInKwh(energyPerVisit).toFixed(2).toString() ;
+    var annualEmissionsInGrams = swd.annualEmissionsInGrams(co2Value).toFixed(2).toString();
 
 
     resolve({
       co2: co2Value.toFixed(2).toString(),
       energyPerVisit: energyPerVisit.toString(),
-      emissionsPerVisitInGrams: emissionsPerVisitInGrams.toFixed(2).toString(),
+      emissionsPerVisitInGrams: transferSizeInKB,
       annualEnergyInKwh,
       annualEmissionsInGrams,
       speed,
