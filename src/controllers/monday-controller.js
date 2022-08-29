@@ -39,7 +39,7 @@ async function executeAction(req, res) {
     unusedCSSSecondsColumnId=-1,unusedJavascriptBytesColumnId=-1,unusedJavascriptSecondsColumnId=-1,
     energyPerVisitColumnId=-1,
     transferSizeInKBColumnId=-1,annualEnergyInKwhColumnId=-1,
-    annualEmissionsInGramsColumnId=-1,deviceColumnId=-1;
+    annualEmissionsInGramsColumnId=-1,deviceColumnId=-1,greenHostingColumnId=-1;
 
 
 
@@ -130,6 +130,15 @@ async function executeAction(req, res) {
     transferSizeInKBColumnId = transferSizeInKBColumn.id;
 
 
+    var greenHostingColumn = allRowAttributes.find(item => item.title.toLowerCase() === "green hosting");
+    if(!greenHostingColumn){
+      greenHostingColumn = await mondayService.createColumn(shortLivedToken,boardId,"Green Hosting","text");
+      greenHostingColumn = greenHostingColumn.data.create_column
+    }
+
+    greenHostingColumnId = greenHostingColumn.id;
+
+
     var annualEnergyColumn = allRowAttributes.find(item => item.title.toLowerCase() === "annual energy (1000 monthly visitors)");
     if(!annualEnergyColumn){
       annualEnergyColumn = await mondayService.createColumn(shortLivedToken,boardId,"Annual Energy (1000 Monthly Visitors)","text");
@@ -177,7 +186,8 @@ async function executeAction(req, res) {
 
       annualEnergyInKwhColumnId,
       annualEmissionsInGramsColumnId,
-      deviceColumnId
+      deviceColumnId,
+      greenHostingColumnId
 
     };
 
