@@ -173,6 +173,7 @@ const changeMultipleColumnValues = async (token, boardId, itemId, websiteColumn,
           [emissionsPerVisitInGramsColumnId]: '-',
           [annualEnergyInKwhColumnId]: '-',
           [annualEmissionsInGramsColumnId]: '-',
+          [transferSizeInKBColumnId]: '-',
           [deviceColumnId]: deviceType.value
 
         }
@@ -215,6 +216,7 @@ const changeMultipleColumnValues = async (token, boardId, itemId, websiteColumn,
         [emissionsPerVisitInGramsColumnId]: '-',
         [annualEnergyInKwhColumnId]: '-',
         [annualEmissionsInGramsColumnId]: '-',
+        [transferSizeInKBColumnId]: '-',
         [deviceColumnId]: deviceType.value
 
       }
@@ -369,7 +371,7 @@ function calculateWebFootprint(url, deviceType) {
     resolve({
       co2: co2Value.toFixed(2).toString(),
       energyPerVisit: energyPerVisit.toString(),
-      emissionsPerVisitInGrams: transferSizeInKB,
+      transferSizeInKB,
       annualEnergyInKwh,
       annualEmissionsInGrams,
       speed,
