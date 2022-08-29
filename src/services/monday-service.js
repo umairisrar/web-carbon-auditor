@@ -4,7 +4,7 @@ const { co2 } = require('@tgwf/co2')
 const fetch = require('node-fetch');
 const swd = require('../helpers/sustainable-web-design');
 
-  
+
 //const swd = new SustainableWebDesign();
 
 
@@ -62,13 +62,13 @@ const getRowAtributes = async (token, itemId) => {
   }
 };
 
-const createColumn = async (token,boardId, title, type) => {
+const createColumn = async (token, boardId, title, type) => {
   try {
 
 
     const mondayClient = initMondayClient({ token });
 
-    console.log({token,boardId,title,type});
+    console.log({ token, boardId, title, type });
 
 
 
@@ -92,13 +92,13 @@ const createColumn = async (token,boardId, title, type) => {
     //   id }}`;
 
 
-      console.log(query);
-  //    const variables = { boardId, title };
+    console.log(query);
+    //    const variables = { boardId, title };
 
-//    const response = await mondayClient.api(query, { variables });
+    //    const response = await mondayClient.api(query, { variables });
 
-    
-    var resp = await mondayClient.api(query,{variables});
+
+    var resp = await mondayClient.api(query, { variables });
 
     return resp;
     // return await mondayClient.api(query,{variables}).then(async (res) => {
@@ -110,22 +110,22 @@ const createColumn = async (token,boardId, title, type) => {
 };
 
 
-const isValidUrl = urlString=> {
-  var urlPattern = new RegExp('^(https?:\\/\\/)?'+ // validate protocol
-  '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // validate domain name
-  '((\\d{1,3}\\.){3}\\d{1,3}))'+ // validate OR ip (v4) address
-  '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // validate port and path
-  '(\\?[;&a-z\\d%_.~+=-]*)?'+ // validate query string
-  '(\\#[-a-z\\d_]*)?$','i'); // validate fragment locator
-return !!urlPattern.test(urlString);
+const isValidUrl = urlString => {
+  var urlPattern = new RegExp('^(https?:\\/\\/)?' + // validate protocol
+    '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // validate domain name
+    '((\\d{1,3}\\.){3}\\d{1,3}))' + // validate OR ip (v4) address
+    '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // validate port and path
+    '(\\?[;&a-z\\d%_.~+=-]*)?' + // validate query string
+    '(\\#[-a-z\\d_]*)?$', 'i'); // validate fragment locator
+  return !!urlPattern.test(urlString);
 }
 
-const changeMultipleColumnValues = async (token, boardId, itemId,websiteColumn,deviceType, auditColumnIds) => {
+const changeMultipleColumnValues = async (token, boardId, itemId, websiteColumn, deviceType, auditColumnIds) => {
   try {
     const mondayClient = initMondayClient({ token });
 
 
-    
+
     let {
       co2ColumnId, speedColumnId, performanceColumnId,
       unusedJavascriptBytesColumnId, unusedJavascriptSecondsColumnId, unusedCSSBytesColumnId,
@@ -133,7 +133,7 @@ const changeMultipleColumnValues = async (token, boardId, itemId,websiteColumn,d
       energyPerVisitColumnId,
       emissionsPerVisitInGramsColumnId,
       annualEnergyInKwhColumnId,
-      annualEmissionsInGramsColumnId,deviceColumnId } = auditColumnIds;
+      annualEmissionsInGramsColumnId, deviceColumnId } = auditColumnIds;
 
     let columnPayload = {};
 
@@ -142,63 +142,60 @@ const changeMultipleColumnValues = async (token, boardId, itemId,websiteColumn,d
     console.log(websiteURL);
     if (isValidUrl(websiteURL)) {
 
-      if(!websiteURL.startsWith('https://')){
-        
+      if (!websiteURL.startsWith('https://')) {
+
         if (websiteURL.startsWith('http://')) {
 
-          websiteURL = websiteURL.replace('http','https')
+          websiteURL = websiteURL.replace('http', 'https')
 
-        }else{
-          websiteURL = "https://"+websiteURL
+        } else {
+          websiteURL = "https://" + websiteURL
         }
 
-        
-      }
-
-      const API_KEY = process.env.PSI_API_KEY;
-
-      const params = new URLSearchParams();
-      params.append('url', websiteURL);
-      params.append('key', API_KEY);
-
-      params.append('fields', 'lighthouseResult.audits.*,lighthouseResult.categories.*.score,lighthouseResult.categories.*.title');
-      params.append('prettyPrint', false);
-      // I use the mobile strategy, but `desktop` is a valid value too.
-      params.append('strategy', deviceType.value);
-
-      params.append('category', 'PERFORMANCE');
-      params.append('category', 'ACCESSIBILITY');
-      params.append('category', 'BEST-PRACTICES');
-      params.append('category', 'SEO');
-
-
-      const psi = `https://www.googleapis.com/pagespeedonline/v5/runPagespeed?${params.toString()}`;
-      var complete_url = psi;
-      console.log(complete_url);
-
-      var psiResponse =  await fetch(complete_url).catch(err => console.log('Request Failed', err.message)); 
-      var obj = await psiResponse.json()
-
-      var byteResult = await calculateWebFootprint(obj);
-
-
-
-      columnPayload = {
-
-        [co2ColumnId]: byteResult.co2,
-        [speedColumnId]: byteResult.speed,
-        [performanceColumnId]: byteResult.performance,
-        [unusedJavascriptBytesColumnId]: byteResult.unusedJavascriptBytes,
-        [unusedCSSSecondsColumnId]: byteResult.unusedCSSSeconds,
-        [unusedJavascriptSecondsColumnId]: byteResult.unusedJavascriptSeconds,
-        [unusedCSSBytesColumnId]: byteResult.unusedCSSBytes,
-        [energyPerVisitColumnId]: byteResult.energyPerVisit,
-        [emissionsPerVisitInGramsColumnId]: byteResult.emissionsPerVisitInGrams,
-        [annualEnergyInKwhColumnId]: byteResult.annualEnergyInKwh,
-        [annualEmissionsInGramsColumnId]: byteResult.annualEmissionsInGrams,
-        [deviceColumnId]:deviceType.value
 
       }
+
+
+      var byteResult = await calculateWebFootprint(websiteURL, deviceType);
+
+      if (byteResult.error) {
+        var websiteColumnId = websiteColumn.id;
+        columnPayload = {
+          [websiteColumnId]: 'Error:' + byteResult.msg,
+          [co2ColumnId]: '-',
+          [speedColumnId]: '-',
+          [performanceColumnId]: '-',
+          [unusedJavascriptBytesColumnId]: '-',
+          [unusedCSSSecondsColumnId]: '-',
+          [unusedJavascriptSecondsColumnId]: '-',
+          [unusedCSSBytesColumnId]: '-',
+          [energyPerVisitColumnId]: '-',
+          [emissionsPerVisitInGramsColumnId]: '-',
+          [annualEnergyInKwhColumnId]: '-',
+          [annualEmissionsInGramsColumnId]: '-',
+          [deviceColumnId]: deviceType.value
+
+        }
+      } else {
+
+        columnPayload = {
+
+          [co2ColumnId]: byteResult.co2,
+          [speedColumnId]: byteResult.speed,
+          [performanceColumnId]: byteResult.performance,
+          [unusedJavascriptBytesColumnId]: byteResult.unusedJavascriptBytes,
+          [unusedCSSSecondsColumnId]: byteResult.unusedCSSSeconds,
+          [unusedJavascriptSecondsColumnId]: byteResult.unusedJavascriptSeconds,
+          [unusedCSSBytesColumnId]: byteResult.unusedCSSBytes,
+          [energyPerVisitColumnId]: byteResult.energyPerVisit,
+          [emissionsPerVisitInGramsColumnId]: byteResult.emissionsPerVisitInGrams,
+          [annualEnergyInKwhColumnId]: byteResult.annualEnergyInKwh,
+          [annualEmissionsInGramsColumnId]: byteResult.annualEmissionsInGrams,
+          [deviceColumnId]: deviceType.value
+
+        }
+      }
+
 
 
 
@@ -206,7 +203,7 @@ const changeMultipleColumnValues = async (token, boardId, itemId,websiteColumn,d
 
       var websiteColumnId = websiteColumn.id;
       columnPayload = {
-        [websiteColumnId]:'Please enter Valid URL',
+        [websiteColumnId]: 'Please enter Valid URL',
         [co2ColumnId]: '-',
         [speedColumnId]: '-',
         [performanceColumnId]: '-',
@@ -218,7 +215,7 @@ const changeMultipleColumnValues = async (token, boardId, itemId,websiteColumn,d
         [emissionsPerVisitInGramsColumnId]: '-',
         [annualEnergyInKwhColumnId]: '-',
         [annualEmissionsInGramsColumnId]: '-',
-        [deviceColumnId]:deviceType.value
+        [deviceColumnId]: deviceType.value
 
       }
     }
@@ -249,76 +246,130 @@ const changeMultipleColumnValues = async (token, boardId, itemId,websiteColumn,d
 };
 
 
-function calculateWebFootprint(obj){
 
-  return new Promise(async(resolve,reject)=>{
-   
-      var categoriesData = obj.lighthouseResult.categories;
+function getGooglePageSpeedInsightsData(websiteURL, deviceType) {
 
-      var totalBytes = obj.lighthouseResult.audits["total-byte-weight"].numericValue;
-      var speed  =  obj.lighthouseResult.audits['speed-index'].displayValue;
-      var performance = Math.ceil(categoriesData['performance'].score * 100);
-      //var domSize = obj.lighthouseResult.audits['dom-size'].details.items[0].value;
-      
-      var unusedJavascriptSeconds = '-';
-      if(obj.lighthouseResult.audits['unused-javascript']["details"]["overallSavingsMs"]){
-         unusedJavascriptSeconds = obj.lighthouseResult.audits['unused-javascript']["details"]["overallSavingsMs"]+" ms";
-      }
-      
-      var unusedJavascriptBytes = '-';
-
-      if(obj.lighthouseResult.audits['unused-javascript']["details"]["overallSavingsBytes"]){
-        unusedJavascriptBytes = parseFloat((obj.lighthouseResult.audits['unused-javascript']["details"]["overallSavingsBytes"]/1024).toFixed(2));
-      }
-      
-      
-      var unusedCSSSeconds = '-';
-      if(obj.lighthouseResult.audits['unused-css-rules']["details"]["overallSavingMs"]){
-         unusedCSSSeconds = obj.lighthouseResult.audits['unused-css-rules']["details"]["overallSavingMs"]+" ms";
-      }
-
-      var unusedCSSBytes = '-';
-      if(obj.lighthouseResult.audits['unused-css-rules']["details"]["overallSavingBytes"]){
-        unusedCSSBytes  = parseFloat((obj.lighthouseResult.audits['unused-css-rules']["details"]["overallSavingBytes"]/1024).toFixed(2));
-      }
-      
-
-    
-
-      // const getGrade = function (score) {
-      //   if (score < 0.5) {
-      //     return 'BAD';
-      //   }
-      //   if (score < 0.9) {
-      //     return 'OK';
-      //   }
-      //   return 'EXCELLENT';
-      // };
-    
-      // Object.keys(categoriesData).map(function (key) {
-      //   categoriesData[key].score = (categoriesData[key].score * 100).toFixed();
-      //   categoriesData[key].grade = getGrade(categoriesData[key].score);
-      // });
+  return new Promise(async (resolve, reject) => {
 
 
-      const greenHost = false // Is the data transferred from a green host?
-      
-      //var co2Value = co2Emission.perByte(totalBytes, greenHost).toString();
-      var co2Value = swd.perVisit(totalBytes, greenHost);
+    const API_KEY = process.env.PSI_API_KEY;
 
-      var energyPerVisit = swd.energyPerVisit(totalBytes);
+    const params = new URLSearchParams();
+    params.append('url', websiteURL);
+    params.append('key', API_KEY);
 
-      
+    params.append('fields', 'lighthouseResult.audits.*,lighthouseResult.categories.*.score,lighthouseResult.categories.*.title');
+    params.append('prettyPrint', false);
+    // I use the mobile strategy, but `desktop` is a valid value too.
+    params.append('strategy', deviceType.value);
 
-       var emissionsPerVisitInGrams = swd.emissionsPerVisitInGrams(energyPerVisit);
-       var annualEnergyInKwh = swd.annualEnergyInKwh(energyPerVisit).toFixed(2).toString()+" Kwh";
-       var annualEmissionsInGrams = swd.annualEmissionsInGrams(co2Value).toFixed(2).toString()+" CO2e";
+    params.append('category', 'PERFORMANCE');
+    params.append('category', 'ACCESSIBILITY');
+    params.append('category', 'BEST-PRACTICES');
+    params.append('category', 'SEO');
+
+
+    const psi = `https://www.googleapis.com/pagespeedonline/v5/runPagespeed?${params.toString()}`;
+    var complete_url = psi;
+    console.log(complete_url);
+
+
+
+
+    var psiResponse = await fetch(complete_url).catch(err => console.log('Request Failed', err.message));
+    var obj = await psiResponse.json()
+    resolve(obj);
+
+  })
+
+}
+
+function getGreenWeb(url) {
+  return new Promise(async (resolve, reject) => {
+
+
+    const parsedURL = new URL(url);
+    const GREEN_FOUNDATION_API_ENDPOINT = "https://api.thegreenwebfoundation.org/greencheck";
+    var gfRes = await fetch(`${GREEN_FOUNDATION_API_ENDPOINT}/${parsedURL.host}`);
+    var result = await gfRes.json();
+    resolve(result);
+
+  })
+
+}
+
+function calculateWebFootprint(url, deviceType) {
+
+  return new Promise(async (resolve, reject) => {
+
+
+    const [pagespeedapiObj, greenweb] = await Promise.all([
+      getGooglePageSpeedInsightsData(url, deviceType),
+      getGreenWeb(url),
+    ]);
+
+    if (pagespeedapiObj === null || pagespeedapiObj === void 0 ? void 0 : pagespeedapiObj.error) {
+      resolve({ error: true, msg: pagespeedapiObj.error.message })
+    }
+
+    const isGreenHost = greenweb === null || greenweb === void 0 ? void 0 : greenweb.green;
+
+
+    var categoriesData = pagespeedapiObj.lighthouseResult.categories;
+
+    var totalBytes = pagespeedapiObj.lighthouseResult.audits["total-byte-weight"].numericValue;
+    var speed = pagespeedapiObj.lighthouseResult.audits['speed-index'].displayValue;
+    var performance = Math.ceil(categoriesData['performance'].score * 100);
+    //var domSize = pagespeedapiObj.lighthouseResult.audits['dom-size'].details.items[0].value;
+
+    var unusedJavascriptSeconds = '-';
+    if (pagespeedapiObj.lighthouseResult.audits['unused-javascript']["details"]["overallSavingsMs"]) {
+      unusedJavascriptSeconds = pagespeedapiObj.lighthouseResult.audits['unused-javascript']["details"]["overallSavingsMs"] + " ms";
+    }
+
+    var unusedJavascriptBytes = '-';
+
+    if (pagespeedapiObj.lighthouseResult.audits['unused-javascript']["details"]["overallSavingsBytes"]) {
+      unusedJavascriptBytes = parseFloat((pagespeedapiObj.lighthouseResult.audits['unused-javascript']["details"]["overallSavingsBytes"] / 1024).toFixed(2));
+    }
+
+
+    var unusedCSSSeconds = '-';
+    if (pagespeedapiObj.lighthouseResult.audits['unused-css-rules']["details"]["overallSavingMs"]) {
+      unusedCSSSeconds = pagespeedapiObj.lighthouseResult.audits['unused-css-rules']["details"]["overallSavingMs"] + " ms";
+    }
+
+    var unusedCSSBytes = '-';
+    if (pagespeedapiObj.lighthouseResult.audits['unused-css-rules']["details"]["overallSavingBytes"]) {
+      unusedCSSBytes = parseFloat((pagespeedapiObj.lighthouseResult.audits['unused-css-rules']["details"]["overallSavingBytes"] / 1024).toFixed(2));
+    }
+
+
+    var co2Value = swd.perVisit(totalBytes, isGreenHost);
+
+    console.log("Carbon=>" + co2Value)
+
+    var energyPerVisit = swd.energyPerVisit(totalBytes);
+
+    console.log("energyPerVisit=>" + energyPerVisit);
+
+    var emissionsPerVisitInGrams = null;
+    if (isGreenHost)
+      emissionsPerVisitInGrams = swd.emissionsPerVisitInGrams(energyPerVisit, swd.RENEWABLES_INTENSITY);
+    else
+      emissionsPerVisitInGrams = swd.emissionsPerVisitInGrams(energyPerVisit);
+
+
+    console.log("emissionsPerVisitInGrams=>" + emissionsPerVisitInGrams);
+
+    var annualEnergyInKwh = swd.annualEnergyInKwh(energyPerVisit).toFixed(2).toString() + " Kwh";
+    var annualEmissionsInGrams = swd.annualEmissionsInGrams(co2Value).toFixed(2).toString() + " CO2e";
 
 
     resolve({
-      co2:co2Value.toFixed(2).toString(),
-      energyPerVisit:energyPerVisit.toString(),
-      emissionsPerVisitInGrams:emissionsPerVisitInGrams.toFixed(2).toString(),
+      co2: co2Value.toFixed(2).toString(),
+      energyPerVisit: energyPerVisit.toString(),
+      emissionsPerVisitInGrams: emissionsPerVisitInGrams.toFixed(2).toString(),
       annualEnergyInKwh,
       annualEmissionsInGrams,
       speed,
@@ -332,6 +383,7 @@ function calculateWebFootprint(obj){
 
   })
 }
+
 
 const changeColumnValue = async (token, boardId, itemId, columnId, value) => {
   try {
