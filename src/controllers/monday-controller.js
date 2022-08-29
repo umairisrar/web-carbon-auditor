@@ -10,7 +10,10 @@ async function executeAction(req, res) {
   try {
     const { inputFields } = payload;
     const { boardId, itemId,deviceType } = inputFields;
-console.log('=========>',deviceType)
+
+    
+    console.log('=========>',deviceType)
+
     const allRowAttributes = await mondayService.getRowAtributes(shortLivedToken, itemId);
 
     if (!allRowAttributes || allRowAttributes.length<1) {
@@ -35,7 +38,7 @@ console.log('=========>',deviceType)
     unusedCSSBytesColumnId=-1,
     unusedCSSSecondsColumnId=-1,unusedJavascriptBytesColumnId=-1,unusedJavascriptSecondsColumnId=-1,
     energyPerVisitColumnId=-1,
-    emissionsPerVisitInGramsColumnId=-1,annualEnergyInKwhColumnId=-1,
+    transferSizeInKBColumnId=-1,annualEnergyInKwhColumnId=-1,
     annualEmissionsInGramsColumnId=-1,deviceColumnId=-1;
 
 
@@ -63,10 +66,10 @@ console.log('=========>',deviceType)
     console.log('speedColumn');
     console.log(speedColumn);
 
-    var performanceColumn = allRowAttributes.find(item => item.title.toLowerCase() === "performance");
+    var performanceColumn = allRowAttributes.find(item => item.title.toLowerCase() === "performance score");
 
     if(!performanceColumn){
-      performanceColumn = await mondayService.createColumn(shortLivedToken,boardId,"Performance","text");
+      performanceColumn = await mondayService.createColumn(shortLivedToken,boardId,"Performance Score","text");
       performanceColumn = performanceColumn.data.create_column
     }
 
@@ -118,13 +121,13 @@ console.log('=========>',deviceType)
 
 
 
-    var emissionPerVistGMColumn = allRowAttributes.find(item => item.title.toLowerCase() === "emission per visit (gms)");
-    if(!emissionPerVistGMColumn){
-      emissionPerVistGMColumn = await mondayService.createColumn(shortLivedToken,boardId,"Emission Per Visit (gms)","text");
-      emissionPerVistGMColumn = emissionPerVistGMColumn.data.create_column
+    var transferSizeInKBColumn = allRowAttributes.find(item => item.title.toLowerCase() === "transfer size (kb)");
+    if(!transferSizeInKBColumn){
+      transferSizeInKBColumn = await mondayService.createColumn(shortLivedToken,boardId,"Transfer Size (KB)","text");
+      transferSizeInKBColumn = transferSizeInKBColumn.data.create_column
     }
 
-    emissionsPerVisitInGramsColumnId = emissionPerVistGMColumn.id;
+    transferSizeInKBColumnId = transferSizeInKBColumn.id;
 
 
     var annualEnergyColumn = allRowAttributes.find(item => item.title.toLowerCase() === "annual energy (1000 monthly visitors)");
@@ -159,7 +162,7 @@ console.log('=========>',deviceType)
 
       co2ColumnId,
       energyPerVisitColumnId,
-      emissionsPerVisitInGramsColumnId,
+      transferSizeInKBColumnId,
 
       speedColumnId,
       performanceColumnId,
