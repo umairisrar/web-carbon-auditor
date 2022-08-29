@@ -131,7 +131,7 @@ const changeMultipleColumnValues = async (token, boardId, itemId, websiteColumn,
       unusedJavascriptBytesColumnId, unusedJavascriptSecondsColumnId, unusedCSSBytesColumnId,
       unusedCSSSecondsColumnId,
       energyPerVisitColumnId,
-      emissionsPerVisitInGramsColumnId,
+      transferSizeInKBColumnId ,
       annualEnergyInKwhColumnId,
       annualEmissionsInGramsColumnId, deviceColumnId } = auditColumnIds;
 
