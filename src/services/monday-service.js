@@ -170,7 +170,6 @@ const changeMultipleColumnValues = async (token, boardId, itemId, websiteColumn,
           [unusedJavascriptSecondsColumnId]: '-',
           [unusedCSSBytesColumnId]: '-',
           [energyPerVisitColumnId]: '-',
-          [emissionsPerVisitInGramsColumnId]: '-',
           [annualEnergyInKwhColumnId]: '-',
           [annualEmissionsInGramsColumnId]: '-',
           [transferSizeInKBColumnId]: '-',
@@ -185,17 +184,18 @@ const changeMultipleColumnValues = async (token, boardId, itemId, websiteColumn,
           [co2ColumnId]: byteResult.co2,
           [speedColumnId]: byteResult.speed,
           [performanceColumnId]: byteResult.performance,
+          [greenHostingColumnId]: byteResult.isGreen,
+          [transferSizeInKBColumnId]: byteResult.transferSizeInKB,
           [unusedJavascriptBytesColumnId]: byteResult.unusedJavascriptBytes,
           [unusedCSSSecondsColumnId]: byteResult.unusedCSSSeconds,
           [unusedJavascriptSecondsColumnId]: byteResult.unusedJavascriptSeconds,
           [unusedCSSBytesColumnId]: byteResult.unusedCSSBytes,
           [energyPerVisitColumnId]: byteResult.energyPerVisit,
-          [transferSizeInKBColumnId]: byteResult.transferSizeInKB,
+        
           [annualEnergyInKwhColumnId]: byteResult.annualEnergyInKwh,
           [annualEmissionsInGramsColumnId]: byteResult.annualEmissionsInGrams,
-          [deviceColumnId]: deviceType.value,
-          [greenHostingColumnId]: byteResult.isGreen,
-
+          [deviceColumnId]: deviceType.value
+          
         }
       }
 
@@ -215,7 +215,6 @@ const changeMultipleColumnValues = async (token, boardId, itemId, websiteColumn,
         [unusedJavascriptSecondsColumnId]: '-',
         [unusedCSSBytesColumnId]: '-',
         [energyPerVisitColumnId]: '-',
-        [emissionsPerVisitInGramsColumnId]: '-',
         [annualEnergyInKwhColumnId]: '-',
         [annualEmissionsInGramsColumnId]: '-',
         [transferSizeInKBColumnId]: '-',
