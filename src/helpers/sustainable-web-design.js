@@ -290,7 +290,9 @@ module.exports = {
     emissionsPerVisitInGrams,
     energyPerByte,
     energyPerVisit,
-    perVisit
+    perVisit,
+    RENEWABLES_INTENSITY,
+    GLOBAL_INTENSITY
 
 }
 
