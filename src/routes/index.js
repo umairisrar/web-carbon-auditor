@@ -4,11 +4,21 @@ const mondayRoutes = require('./monday');
 router.use(mondayRoutes);
 
 router.get('/',  async function (req, res) {
-  res.json(getHealth());
+  res.sendFile(path.join(__dirname, 'public')+'/index.html');
+});
+
+router.get('/terms-conditions',function(req,res) {
+
+  
+  res.sendFile(path.join(__dirname, 'public')+'/terms-conditions.html');
 });
 
 
+router.get('/privacy-policy',function(req,res) {
 
+  
+  res.sendFile(path.join(__dirname, 'public')+'/privacy-policy.html');
+});
 
 
 
