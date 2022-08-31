@@ -6,7 +6,7 @@ const routes = require('./routes');
 
 const { PORT: port } = process.env;
 const app = express();
-
+app.use(express.static(`${__dirname}/public`));
 app.use(bodyParser.json());
 app.use(routes);
 app.listen(port, () => {
