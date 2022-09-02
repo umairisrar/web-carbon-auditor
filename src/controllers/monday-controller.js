@@ -300,7 +300,7 @@ async function executeEmailAction(req,res){
       attachmentEmailColumn= await mondayService.createColumn(shortLivedToken,boardId,"Attachment Email","","text");
       attachmentEmailColumn = attachmentEmailColumn.data.create_column
     }
-    attachmentEmailColumn = attachmentEmailColumn.id;
+    attachmentEmailColumnId = attachmentEmailColumn.id;
 
 
     let emailCarbonColumnIds = {
