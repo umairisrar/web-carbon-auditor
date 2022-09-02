@@ -241,9 +241,9 @@ const changeMultipleColumnValuesForEmail= async (token, boardId, itemId, emailCo
   try {
     const mondayClient = initMondayClient({ token });
 
-console.log('Email Count Column')
-    console.log(emailCountColumn);
 
+    console.log('Email Count Column')
+    console.log(emailCountColumn);
     let {
       spamEmailColumnId,
       p2pEmailColumnId,
@@ -255,12 +255,13 @@ console.log('Email Count Column')
 
     let columnPayload = {};
 
-    let emailCount = emailCountColumn.value;
-    emailCount= parseInt(emailCount);
-    console.log(emailCount);
+    let emailCount = JSON.parse(emailCountColumn.value);
+    
     if (isNumeric(emailCount)) {
 
-      //emailCount= parseInt(emailCount);
+      emailCount= parseInt(emailCount);
+      console.log(emailCount);
+
       var byteResult = await calculateEmailFootprint(emailCount);
 
     
@@ -279,6 +280,7 @@ console.log('Email Count Column')
 
 
     } else {
+
 
       var emailCountColumnId = emailCountColumn.id;
       columnPayload = {
