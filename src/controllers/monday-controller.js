@@ -220,9 +220,119 @@ async function getRemoteListOptions(req, res) {
   }
 }
 
+async function executeEmailAction(req,res){
+  const { shortLivedToken } = req.session;
+  const { payload } = req.body;
+
+  try {
+    const { inputFields } = payload;
+    const { boardId, itemId } = inputFields;
+
+    const allRowAttributes = await mondayService.getRowAtributes(shortLivedToken, itemId);
+
+    if (!allRowAttributes || allRowAttributes.length<1) {
+      return res.status(200).send({});
+    }
+
+
+    console.log('allRowAttributes');
+    console.log(allRowAttributes);
+
+    var emailCountColumn = allRowAttributes.find(item => item.title.toLowerCase().indexOf("number of emails")>-1 );
+
+    if(!emailCountColumn){
+      return res.status(200).send({});
+    }
+
+
+    let spamEmailColumnId=-1,p2pEmailColumnId=-1,l2lEmailColumnId=-1,
+    longEmailColumnId=-1,
+    newsletterEmailColumnId=-1,attachmentEmailColumnId=-1;
+
+
+    var spamEmailColumn = allRowAttributes.find(item => item.title.toLowerCase() === "spam email");
+    
+
+    if(!spamEmailColumn){
+      spamEmailColumn= await mondayService.createColumn(shortLivedToken,boardId,"SPAM EMAIL","","text");
+      spamEmailColumn = spamEmailColumn.data.create_column
+    }
+    spamEmailColumnId = spamEmailColumn.id;
+
+
+    var p2pEmailColumn = allRowAttributes.find(item => item.title.toLowerCase() === "short email phone 2 phone");
+    
+
+    if(!p2pEmailColumn){
+      p2pEmailColumn= await mondayService.createColumn(shortLivedToken,boardId,"Short Email Phone 2 Phone","","text");
+      p2pEmailColumn = p2pEmailColumn.data.create_column
+    }
+    p2pEmailColumnId = p2pEmailColumn.id;
+
+
+    var l2lEmailColumn = allRowAttributes.find(item => item.title.toLowerCase() === "short email laptop 2 laptop");
+
+    if(!l2lEmailColumn){
+      l2lEmailColumn= await mondayService.createColumn(shortLivedToken,boardId,"Short Email Laptop 2 Laptop","","text");
+      l2lEmailColumn = l2lEmailColumn.data.create_column
+    }
+    l2lEmailColumnId = l2lEmailColumn.id;
+
+
+
+    var longEmailColumn = allRowAttributes.find(item => item.title.toLowerCase() === "long email");
+    
+    if(!longEmailColumn){
+      longEmailColumn= await mondayService.createColumn(shortLivedToken,boardId,"Long Email","","text");
+      longEmailColumn = longEmailColumn.data.create_column
+    }
+    longEmailColumnId = longEmailColumn.id;
+
+
+
+    var newsletterEmailColumn = allRowAttributes.find(item => item.title.toLowerCase() === "newsletter email");
+    
+    if(!newsletterEmailColumn){
+      newsletterEmailColumn= await mondayService.createColumn(shortLivedToken,boardId,"Newsletter Email","","text");
+      newsletterEmailColumn = newsletterEmailColumn.data.create_column
+    }
+    newsletterEmailColumnId = newsletterEmailColumn.id;
+
+
+    var attachmentEmailColumn = allRowAttributes.find(item => item.title.toLowerCase() === "attachment email");
+    
+    if(!attachmentEmailColumn){
+      attachmentEmailColumn= await mondayService.createColumn(shortLivedToken,boardId,"Attachment Email","","text");
+      attachmentEmailColumn = attachmentEmailColumn.data.create_column
+    }
+    attachmentEmailColumn = attachmentEmailColumn.id;
+
+
+    let emailCarbonColumnIds = {
+
+      spamEmailColumnId,
+      p2pEmailColumnId,
+      l2lEmailColumnId,
+
+      longEmailColumnId,
+      newsletterEmailColumnId,
+      attachmentEmailColumnId
+      
+
+    };
+
+    await mondayService.changeMultipleColumnValuesForEmail(shortLivedToken, boardId, itemId, emailCountColumn,emailCarbonColumnIds);
+
+  } catch (err) {
+    console.error(err);
+    return res.status(500).send({ message: 'internal server error' });
+  }
+}
+
 
 
 module.exports = {
   getRemoteListOptions,
-  executeAction
+  executeAction,
+  executeEmailAction
 };
