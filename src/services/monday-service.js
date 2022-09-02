@@ -272,7 +272,7 @@ const changeMultipleColumnValuesForEmail= async (token, boardId, itemId, emailCo
         [l2lEmailColumnId]: byteResult.shortL2LEmailCarbon.toFixed(2).toString(),
         [longEmailColumnId]: byteResult.longEmailCarbon.toFixed(2).toString(),
         [newsletterEmailColumnId]: byteResult.newsletterEmailCarbon.toFixed(2).toString(),
-        [attachmentEmailColumnId]: byteResult.attachmentEmailCarbontoFixed(2).toString()
+        [attachmentEmailColumnId]: byteResult.attachmentEmailCarbon.toFixed(2).toString()
 
       }
 
