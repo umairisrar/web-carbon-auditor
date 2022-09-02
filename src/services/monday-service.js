@@ -3,7 +3,7 @@ const initMondayClient = require('monday-sdk-js');
 const { co2 } = require('@tgwf/co2')
 const fetch = require('node-fetch');
 const swd = require('../helpers/sustainable-web-design');
-
+const Cache = require('@11ty/eleventy-cache-assets');
 
 //const swd = new SustainableWebDesign();
 
@@ -277,8 +277,15 @@ function getGooglePageSpeedInsightsData(websiteURL, deviceType) {
     var complete_url = psi;
     console.log(complete_url);
 
-    var psiResponse = await fetch(complete_url).catch(err => console.log('Request Failed', err.message));
-    var obj = await psiResponse.json()
+    
+
+    let obj = await Cache(complete_url, {
+      duration: '1d',
+      type: 'json',
+    }).catch(err => console.log('Request Failed', err.message));;
+
+    // var psiResponse = await fetch(complete_url).catch(err => console.log('Request Failed', err.message));
+    // var obj = await psiResponse.json()
     resolve(obj);
 
   })
