@@ -281,7 +281,7 @@ const changeMultipleColumnValuesForEmail= async (token, boardId, itemId, emailCo
 
       var emailCountColumnId = emailCountColumn.id;
       columnPayload = {
-        [emailCountColumnId]: 'Error:' + byteResult.msg,
+        [emailCountColumnId]: 'Please enter valid number',
         [spamEmailColumnId]: '-',
         [p2pEmailColumnId]: '-',
         [l2lEmailColumnId]: '-',
