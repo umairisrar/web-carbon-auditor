@@ -3,7 +3,7 @@ const initMondayClient = require('monday-sdk-js');
 const { co2 } = require('@tgwf/co2')
 const fetch = require('node-fetch');
 const swd = require('../helpers/sustainable-web-design');
-const Cache = require('@11ty/eleventy-cache-assets');
+const Cache = require('@11ty/eleventy-fetch');
 
 //const swd = new SustainableWebDesign();
 
