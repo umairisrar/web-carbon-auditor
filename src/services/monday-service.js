@@ -80,7 +80,7 @@ const createColumn = async (token, boardId, title,description, type) => {
    
 
 
-    var resp = await mondayClient.api(query, { variables });
+    var resp = await mondayClient.api(query, { variables }).catch(e=>console.log(e));
 
     return resp;
     // return await mondayClient.api(query,{variables}).then(async (res) => {
