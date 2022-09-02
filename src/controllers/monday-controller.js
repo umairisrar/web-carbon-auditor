@@ -3,7 +3,6 @@ const mondayService = require('../services/monday-service');
 
 async function executeAction(req, res) {
 
-  
   const { shortLivedToken } = req.session;
   const { payload } = req.body;
 
@@ -47,7 +46,7 @@ async function executeAction(req, res) {
     
 
     if(!co2Column){
-      co2Column= await mondayService.createColumn(shortLivedToken,boardId,"CO2 (gms)","text");
+      co2Column= await mondayService.createColumn(shortLivedToken,boardId,"CO2 (gms)","","text");
       co2Column = co2Column.data.create_column
     }
     co2ColumnId = co2Column.id;
@@ -57,7 +56,7 @@ async function executeAction(req, res) {
     var speedColumn = allRowAttributes.find(item => item.title.toLowerCase() === "speed");
 
     if(!speedColumn){
-      speedColumn= await mondayService.createColumn(shortLivedToken,boardId,"Speed","text");
+      speedColumn= await mondayService.createColumn(shortLivedToken,boardId,"Speed","","text");
       speedColumn = speedColumn.data.create_column
     }
 
@@ -69,7 +68,7 @@ async function executeAction(req, res) {
     var performanceColumn = allRowAttributes.find(item => item.title.toLowerCase() === "performance score");
 
     if(!performanceColumn){
-      performanceColumn = await mondayService.createColumn(shortLivedToken,boardId,"Performance Score","text");
+      performanceColumn = await mondayService.createColumn(shortLivedToken,boardId,"Performance Score","","text");
       performanceColumn = performanceColumn.data.create_column
     }
 
@@ -78,10 +77,33 @@ async function executeAction(req, res) {
     console.log('performanceColumn');
     console.log(performanceColumn);
 
+    var greenHostingColumn = allRowAttributes.find(item => item.title.toLowerCase() === "green hosting");
+    if(!greenHostingColumn){
+      greenHostingColumn = await mondayService.createColumn(shortLivedToken,boardId,"Green Hosting","","text");
+      greenHostingColumn = greenHostingColumn.data.create_column
+    }
+
+    greenHostingColumnId = greenHostingColumn.id;
+
+    var energyColumn = allRowAttributes.find(item => item.title.toLowerCase() === "energy per visit (kwh)");
+    if(!energyColumn){
+      energyColumn = await mondayService.createColumn(shortLivedToken,boardId,"Energy Per Visit (kWh)","","text");
+      energyColumn = energyColumn.data.create_column
+    }
+    energyPerVisitColumnId = energyColumn.id
+
+    
+    var transferSizeInKBColumn = allRowAttributes.find(item => item.title.toLowerCase() === "transfer size (kb)");
+    if(!transferSizeInKBColumn){
+      transferSizeInKBColumn = await mondayService.createColumn(shortLivedToken,boardId,"Transfer Size (KB)","","text");
+      transferSizeInKBColumn = transferSizeInKBColumn.data.create_column
+    }
+
+    transferSizeInKBColumnId = transferSizeInKBColumn.id;
 
     var unusedJavascriptBytesColumn = allRowAttributes.find(item => item.title.toLowerCase() === "unused js (kb)");
     if(!unusedJavascriptBytesColumn){
-      unusedJavascriptBytesColumn = await mondayService.createColumn(shortLivedToken,boardId,"Unused JS (KB)","text");
+      unusedJavascriptBytesColumn = await mondayService.createColumn(shortLivedToken,boardId,"Unused JS (KB)","","text");
       unusedJavascriptBytesColumn = unusedJavascriptBytesColumn.data.create_column
     }
     unusedJavascriptBytesColumnId = unusedJavascriptBytesColumn.id
@@ -89,16 +111,15 @@ async function executeAction(req, res) {
     
     var unusedJavascriptSecondsColumn = allRowAttributes.find(item => item.title.toLowerCase() === "unused js (ms)");
     if(!unusedJavascriptSecondsColumn){
-      unusedJavascriptSecondsColumn = await mondayService.createColumn(shortLivedToken,boardId,"Unused JS (ms)","text");
+      unusedJavascriptSecondsColumn = await mondayService.createColumn(shortLivedToken,boardId,"Unused JS (ms)","","text");
       unusedJavascriptSecondsColumn = unusedJavascriptSecondsColumn.data.create_column
     }
     unusedJavascriptSecondsColumnId = unusedJavascriptSecondsColumn.id
 
 
-
     var unusedCSSBytesColumn = allRowAttributes.find(item => item.title.toLowerCase() === "unused css (kb)");
     if(!unusedCSSBytesColumn){
-      unusedCSSBytesColumn = await mondayService.createColumn(shortLivedToken,boardId,"Unused CSS (KB)","text");
+      unusedCSSBytesColumn = await mondayService.createColumn(shortLivedToken,boardId,"Unused CSS (KB)","","text");
       unusedCSSBytesColumn = unusedCSSBytesColumn.data.create_column
     }
     unusedCSSBytesColumnId = unusedCSSBytesColumn.id
@@ -106,42 +127,16 @@ async function executeAction(req, res) {
 
     var unusedCSSSecondsColumn = allRowAttributes.find(item => item.title.toLowerCase() === "unused css (ms)");
     if(!unusedCSSSecondsColumn){
-      unusedCSSSecondsColumn = await mondayService.createColumn(shortLivedToken,boardId,"Unused CSS (ms)","text");
+      unusedCSSSecondsColumn = await mondayService.createColumn(shortLivedToken,boardId,"Unused CSS (ms)","","text");
       unusedCSSSecondsColumn = unusedCSSSecondsColumn.data.create_column
     }
     unusedCSSSecondsColumnId = unusedCSSSecondsColumn.id
     
 
-    var energyColumn = allRowAttributes.find(item => item.title.toLowerCase() === "energy per visit (kwh)");
-    if(!energyColumn){
-      energyColumn = await mondayService.createColumn(shortLivedToken,boardId,"Energy Per Visit (kWh)","text");
-      energyColumn = energyColumn.data.create_column
-    }
-    energyPerVisitColumnId = energyColumn.id
-
-
-
-    var transferSizeInKBColumn = allRowAttributes.find(item => item.title.toLowerCase() === "transfer size (kb)");
-    if(!transferSizeInKBColumn){
-      transferSizeInKBColumn = await mondayService.createColumn(shortLivedToken,boardId,"Transfer Size (KB)","text");
-      transferSizeInKBColumn = transferSizeInKBColumn.data.create_column
-    }
-
-    transferSizeInKBColumnId = transferSizeInKBColumn.id;
-
-
-    var greenHostingColumn = allRowAttributes.find(item => item.title.toLowerCase() === "green hosting");
-    if(!greenHostingColumn){
-      greenHostingColumn = await mondayService.createColumn(shortLivedToken,boardId,"Green Hosting","text");
-      greenHostingColumn = greenHostingColumn.data.create_column
-    }
-
-    greenHostingColumnId = greenHostingColumn.id;
-
 
     var annualEnergyColumn = allRowAttributes.find(item => item.title.toLowerCase() === "annual energy (1000 monthly visitors)");
     if(!annualEnergyColumn){
-      annualEnergyColumn = await mondayService.createColumn(shortLivedToken,boardId,"Annual Energy (1000 Monthly Visitors)","text");
+      annualEnergyColumn = await mondayService.createColumn(shortLivedToken,boardId,"Annual Energy (1000 Monthly Visitors)","","text");
       annualEnergyColumn = annualEnergyColumn.data.create_column
     }
 
@@ -150,7 +145,7 @@ async function executeAction(req, res) {
 
     var annualEmissionGMColumn = allRowAttributes.find(item => item.title.toLowerCase() === "annual emission (1000 monthly visitors)");
     if(!annualEmissionGMColumn){
-      annualEmissionGMColumn = await mondayService.createColumn(shortLivedToken,boardId,"Annual Emission (1000 Monthly Visitors)","text");
+      annualEmissionGMColumn = await mondayService.createColumn(shortLivedToken,boardId,"Annual Emission (1000 Monthly Visitors)","","text");
       annualEmissionGMColumn = annualEmissionGMColumn.data.create_column 
     }
 
@@ -161,7 +156,7 @@ async function executeAction(req, res) {
     
 
     if(!deviceColumn){
-      deviceColumn= await mondayService.createColumn(shortLivedToken,boardId,"Device","text");
+      deviceColumn= await mondayService.createColumn(shortLivedToken,boardId,"Device","","text");
       deviceColumn = deviceColumn.data.create_column
     }
     deviceColumnId = deviceColumn.id;
