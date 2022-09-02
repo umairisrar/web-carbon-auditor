@@ -267,12 +267,12 @@ const changeMultipleColumnValuesForEmail= async (token, boardId, itemId, emailCo
     
       columnPayload = {
 
-        [spamEmailColumnId]: byteResult.spamEmailCarbon,
-        [p2pEmailColumnId]: byteResult.shortP2PEmailCarbon,
-        [l2lEmailColumnId]: byteResult.shortL2LEmailCarbon,
-        [longEmailColumnId]: byteResult.longEmailCarbon,
-        [newsletterEmailColumnId]: byteResult.newsletterEmailCarbon,
-        [attachmentEmailColumnId]: byteResult.attachmentEmailCarbon
+        [spamEmailColumnId]: byteResult.spamEmailCarbon.toFixed(2).toString(),
+        [p2pEmailColumnId]: byteResult.shortP2PEmailCarbon.toFixed(2).toString(),
+        [l2lEmailColumnId]: byteResult.shortL2LEmailCarbon.toFixed(2).toString(),
+        [longEmailColumnId]: byteResult.longEmailCarbon.toFixed(2).toString(),
+        [newsletterEmailColumnId]: byteResult.newsletterEmailCarbon.toFixed(2).toString(),
+        [attachmentEmailColumnId]: byteResult.attachmentEmailCarbontoFixed(2).toString()
 
       }
 
