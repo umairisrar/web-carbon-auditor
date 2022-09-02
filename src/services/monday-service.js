@@ -255,11 +255,11 @@ const changeMultipleColumnValuesForEmail= async (token, boardId, itemId, emailCo
     let columnPayload = {};
 
     let emailCount = emailCountColumn.value;
-
+    emailCount= parseInt(emailCount);
     console.log(emailCount);
     if (isNumeric(emailCount)) {
 
-      emailCount= parseInt(emailCount);
+      //emailCount= parseInt(emailCount);
       var byteResult = await calculateEmailFootprint(emailCount);
 
     
