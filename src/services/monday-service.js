@@ -241,7 +241,8 @@ const changeMultipleColumnValuesForEmail= async (token, boardId, itemId, emailCo
   try {
     const mondayClient = initMondayClient({ token });
 
-
+console.log('Email Count Column')
+    console.log(emailCountColumn);
 
     let {
       spamEmailColumnId,
