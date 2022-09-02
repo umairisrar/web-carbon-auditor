@@ -233,7 +233,7 @@ async function executeEmailAction(req,res){
     console.log('allRowAttributes');
     console.log(allRowAttributes);
 
-    var emailCountColumn = allRowAttributes.find(item => item.title.toLowerCase().indexOf("number of emails")>-1 );
+    var emailCountColumn = allRowAttributes.find(item => item.title.toLowerCase().indexOf("daily email count")>-1 );
 
     if(!emailCountColumn){
       return res.status(200).send({});
@@ -249,26 +249,26 @@ async function executeEmailAction(req,res){
     
 
     if(!spamEmailColumn){
-      spamEmailColumn= await mondayService.createColumn(shortLivedToken,boardId,"SPAM EMAIL","","text");
+      spamEmailColumn= await mondayService.createColumn(shortLivedToken,boardId,"Spam Email","","text");
       spamEmailColumn = spamEmailColumn.data.create_column
     }
     spamEmailColumnId = spamEmailColumn.id;
 
 
-    var p2pEmailColumn = allRowAttributes.find(item => item.title.toLowerCase() === "short email phone 2 phone");
+    var p2pEmailColumn = allRowAttributes.find(item => item.title.toLowerCase() === "short email phone");
     
 
     if(!p2pEmailColumn){
-      p2pEmailColumn= await mondayService.createColumn(shortLivedToken,boardId,"Short Email Phone 2 Phone","","text");
+      p2pEmailColumn= await mondayService.createColumn(shortLivedToken,boardId,"Short Email Phone","Short Email Phone to Phone","text");
       p2pEmailColumn = p2pEmailColumn.data.create_column
     }
     p2pEmailColumnId = p2pEmailColumn.id;
 
 
-    var l2lEmailColumn = allRowAttributes.find(item => item.title.toLowerCase() === "short email laptop 2 laptop");
+    var l2lEmailColumn = allRowAttributes.find(item => item.title.toLowerCase() === "short email laptop");
 
     if(!l2lEmailColumn){
-      l2lEmailColumn= await mondayService.createColumn(shortLivedToken,boardId,"Short Email Laptop 2 Laptop","","text");
+      l2lEmailColumn= await mondayService.createColumn(shortLivedToken,boardId,"Short Email Laptop","Short Email Laptop to Laptop","text");
       l2lEmailColumn = l2lEmailColumn.data.create_column
     }
     l2lEmailColumnId = l2lEmailColumn.id;
@@ -278,7 +278,7 @@ async function executeEmailAction(req,res){
     var longEmailColumn = allRowAttributes.find(item => item.title.toLowerCase() === "long email");
     
     if(!longEmailColumn){
-      longEmailColumn= await mondayService.createColumn(shortLivedToken,boardId,"Long Email","","text");
+      longEmailColumn= await mondayService.createColumn(shortLivedToken,boardId,"Long Email","Email takes 10min to write, 3 min to read","text");
       longEmailColumn = longEmailColumn.data.create_column
     }
     longEmailColumnId = longEmailColumn.id;
@@ -288,7 +288,7 @@ async function executeEmailAction(req,res){
     var newsletterEmailColumn = allRowAttributes.find(item => item.title.toLowerCase() === "newsletter email");
     
     if(!newsletterEmailColumn){
-      newsletterEmailColumn= await mondayService.createColumn(shortLivedToken,boardId,"Newsletter Email","","text");
+      newsletterEmailColumn= await mondayService.createColumn(shortLivedToken,boardId,"Newsletter Email","One email, 10min to write, 3min to read sent to 100 people of whom 99 ignore after 3 seconds as not relevant and 1 person read.","text");
       newsletterEmailColumn = newsletterEmailColumn.data.create_column
     }
     newsletterEmailColumnId = newsletterEmailColumn.id;
@@ -297,7 +297,7 @@ async function executeEmailAction(req,res){
     var attachmentEmailColumn = allRowAttributes.find(item => item.title.toLowerCase() === "attachment email");
     
     if(!attachmentEmailColumn){
-      attachmentEmailColumn= await mondayService.createColumn(shortLivedToken,boardId,"Attachment Email","","text");
+      attachmentEmailColumn= await mondayService.createColumn(shortLivedToken,boardId,"Attachment Email","Email with atleast one attachment","text");
       attachmentEmailColumn = attachmentEmailColumn.data.create_column
     }
     attachmentEmailColumnId = attachmentEmailColumn.id;
