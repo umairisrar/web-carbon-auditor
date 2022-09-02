@@ -259,7 +259,7 @@ const changeMultipleColumnValuesForEmail= async (token, boardId, itemId, emailCo
     console.log(emailCount);
     if (isNumeric(emailCount)) {
 
-
+      emailCount= parseInt(emailCount);
       var byteResult = await calculateEmailFootprint(emailCount);
 
     
