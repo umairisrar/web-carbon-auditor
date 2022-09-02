@@ -3,14 +3,9 @@ const initMondayClient = require('monday-sdk-js');
 const { co2 } = require('@tgwf/co2')
 const fetch = require('node-fetch');
 const swd = require('../helpers/sustainable-web-design');
-const Cache = require('@11ty/eleventy-fetch');
-
-//const swd = new SustainableWebDesign();
+const Cache = require("@11ty/eleventy-fetch");
 
 
-
-const co2Emission = new co2();
-//const swd = new co2({model:'swd'});
 
 const getColumnValue = async (token, itemId, columnId) => {
   try {
@@ -32,9 +27,6 @@ const getColumnValue = async (token, itemId, columnId) => {
     console.error(err);
   }
 };
-
-
-
 
 
 const getRowAtributes = async (token, itemId) => {
@@ -62,7 +54,7 @@ const getRowAtributes = async (token, itemId) => {
   }
 };
 
-const createColumn = async (token, boardId, title, type) => {
+const createColumn = async (token, boardId, title,description, type) => {
   try {
 
 
@@ -72,30 +64,19 @@ const createColumn = async (token, boardId, title, type) => {
 
 
 
-    const query = `mutation create_column($boardId: Int!, $title: String!) {
-      create_column(board_id: $boardId, title: $title, column_type: text) {
+    const query = `mutation create_column($boardId: Int!, $title: String!, $description:String) {
+      create_column(board_id: $boardId, title: $title,description:$description, column_type: text) {
           id
         }
       }
       `;
 
-    const variables = { boardId, title };
+    const variables = { boardId, title,description };
 
-    //const response = await mondayClient.api(query, { variables });
-
-
-
-
-
-    // const query = `mutation { 
-    // create_column (board_id: ${boardId}, title: ${title}, column_type: text }) {
-    //   id }}`;
-
+    
 
     console.log(query);
-    //    const variables = { boardId, title };
-
-    //    const response = await mondayClient.api(query, { variables });
+   
 
 
     var resp = await mondayClient.api(query, { variables });
@@ -118,6 +99,12 @@ const isValidUrl = urlString => {
     '(\\?[;&a-z\\d%_.~+=-]*)?' + // validate query string
     '(\\#[-a-z\\d_]*)?$', 'i'); // validate fragment locator
   return !!urlPattern.test(urlString);
+}
+
+function isNumeric(str) {
+  if (typeof str != "string") return false // we only process strings!  
+  return !isNaN(str) && // use type coercion to parse the _entirety_ of the string (`parseFloat` alone does not do this)...
+         !isNaN(parseFloat(str)) // ...and ensure strings of whitespace fail
 }
 
 const changeMultipleColumnValues = async (token, boardId, itemId, websiteColumn, deviceType, auditColumnIds) => {
@@ -249,6 +236,85 @@ const changeMultipleColumnValues = async (token, boardId, itemId, websiteColumn,
   }
 };
 
+const changeMultipleColumnValuesForEmail= async (token, boardId, itemId, emailCountColumn, emailCarbonColumnIds) =>{
+
+  try {
+    const mondayClient = initMondayClient({ token });
+
+
+
+    let {
+      spamEmailColumnId,
+      p2pEmailColumnId,
+      l2lEmailColumnId,
+
+      longEmailColumnId,
+      newsletterEmailColumnId,
+      attachmentEmailColumnId} = emailCarbonColumnIds;
+
+    let columnPayload = {};
+
+    let emailCount = emailCountColumn.value;
+
+    console.log(emailCount);
+    if (isNumeric(emailCount)) {
+
+
+      var byteResult = await calculateEmailFootprint(emailCount);
+
+    
+      columnPayload = {
+
+        [spamEmailColumnId]: byteResult.spamEmailCarbon,
+        [p2pEmailColumnId]: byteResult.shortP2PEmailCarbon,
+        [l2lEmailColumnId]: byteResult.shortL2LEmailCarbon,
+        [longEmailColumnId]: byteResult.longEmailCarbon,
+        [newsletterEmailColumnId]: byteResult.newsletterEmailCarbon,
+        [attachmentEmailColumnId]: byteResult.attachmentEmailCarbon
+
+      }
+
+
+
+
+    } else {
+
+      var emailCountColumnId = emailCountColumn.id;
+      columnPayload = {
+        [emailCountColumnId]: 'Error:' + byteResult.msg,
+        [spamEmailColumnId]: '-',
+        [p2pEmailColumnId]: '-',
+        [l2lEmailColumnId]: '-',
+        [longEmailColumnId]: '-',
+        [newsletterEmailColumnId]: '-',
+        [attachmentEmailColumnId]: '-'
+
+      }
+
+    }
+
+    var columnvalues = JSON.stringify(columnPayload)
+
+
+    console.log('columnvalues');
+    console.log(columnvalues);
+
+    const query = `mutation change_multiple_column_values($boardId: Int!, $itemId: Int!, $columnvalues: JSON!) {
+        change_multiple_column_values(board_id: $boardId, item_id: $itemId, column_values: $columnvalues) {
+            id
+          }
+        }
+        `;
+
+    const variables = { boardId, itemId, columnvalues };
+
+    const response = await mondayClient.api(query, { variables });
+    return response;
+  } catch (err) {
+    console.error(err);
+  }
+  
+}
 
 
 function getGooglePageSpeedInsightsData(websiteURL, deviceType) {
@@ -279,10 +345,10 @@ function getGooglePageSpeedInsightsData(websiteURL, deviceType) {
 
     
 
-    let obj = await Cache(complete_url, {
+    let obj = await Cache(`https://www.googleapis.com/pagespeedonline/v5/runPagespeed?${params.toString()}`, {
       duration: '1d',
       type: 'json',
-    }).catch(err => console.log('Request Failed', err.message));;
+    });
 
     // var psiResponse = await fetch(complete_url).catch(err => console.log('Request Failed', err.message));
     // var obj = await psiResponse.json()
@@ -398,6 +464,49 @@ function calculateWebFootprint(url, deviceType) {
 }
 
 
+
+function calculateEmailFootprint(emailCount) {
+
+  return new Promise(async (resolve, reject) => {
+
+  let spamEmailPercentage = 0.47;
+  let normalEmailPercentage = 0.53;  
+  let businessEmailWithAttachmentPercentage = 0.24;
+
+  let SPAM_CO2=0.03;
+  let SHORT_PHONE2PHONE_CO2 = 0.2 ;
+  let SHORT_LAPTOP2LAPTOP_CO2 =0.3 ;
+  let LONG_LAPTOP2LAPTOP_CO2 = 17 ;  
+  let NEWSLETTER_CO2 = 26 ;  
+  let ATTACHMENT_CO2 = 50;
+
+
+
+  let spamEmailCarbon = emailCount * SPAM_CO2 * spamEmailPercentage;
+  let shortP2PEmailCarbon = emailCount* SHORT_PHONE2PHONE_CO2 * normalEmailPercentage;
+
+  let shortL2LEmailCarbon = emailCount * SHORT_LAPTOP2LAPTOP_CO2 * normalEmailPercentage;
+
+  let longEmailCarbon = emailCount* LONG_LAPTOP2LAPTOP_CO2 * normalEmailPercentage;
+
+  let newsletterEmailCarbon = emailCount* NEWSLETTER_CO2 * normalEmailPercentage;
+
+  let attachmentEmailCarbon = emailCount* ATTACHMENT_CO2 * businessEmailWithAttachmentPercentage;
+
+
+    resolve({
+      spamEmailCarbon,
+      shortP2PEmailCarbon,
+      shortL2LEmailCarbon,
+      longEmailCarbon,
+      newsletterEmailCarbon,
+      attachmentEmailCarbon
+    });
+
+
+  })
+}
+
 const changeColumnValue = async (token, boardId, itemId, columnId, value) => {
   try {
     const mondayClient = initMondayClient({ token });
@@ -422,5 +531,6 @@ module.exports = {
   getRowAtributes,
   changeColumnValue,
   createColumn,
-  changeMultipleColumnValues
+  changeMultipleColumnValues,
+  changeMultipleColumnValuesForEmail
 };
