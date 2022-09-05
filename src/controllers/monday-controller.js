@@ -46,7 +46,7 @@ async function executeAction(req, res) {
     
 
     if(!co2Column){
-      co2Column= await mondayService.createColumn(shortLivedToken,boardId,"CO2 (gms)","","text");
+      co2Column= await mondayService.createColumn(shortLivedToken,boardId,"CO2 (gms)","","numbers");
       co2Column = co2Column.data.create_column
     }
     co2ColumnId = co2Column.id;
@@ -56,7 +56,7 @@ async function executeAction(req, res) {
     var speedColumn = allRowAttributes.find(item => item.title.toLowerCase() === "speed");
 
     if(!speedColumn){
-      speedColumn= await mondayService.createColumn(shortLivedToken,boardId,"Speed","","text");
+      speedColumn= await mondayService.createColumn(shortLivedToken,boardId,"Speed","","numbers");
       speedColumn = speedColumn.data.create_column
     }
 
@@ -68,7 +68,7 @@ async function executeAction(req, res) {
     var performanceColumn = allRowAttributes.find(item => item.title.toLowerCase() === "performance score");
 
     if(!performanceColumn){
-      performanceColumn = await mondayService.createColumn(shortLivedToken,boardId,"Performance Score","","text");
+      performanceColumn = await mondayService.createColumn(shortLivedToken,boardId,"Performance Score","","numbers");
       performanceColumn = performanceColumn.data.create_column
     }
 
@@ -95,7 +95,7 @@ async function executeAction(req, res) {
     
     var transferSizeInKBColumn = allRowAttributes.find(item => item.title.toLowerCase() === "transfer size (kb)");
     if(!transferSizeInKBColumn){
-      transferSizeInKBColumn = await mondayService.createColumn(shortLivedToken,boardId,"Transfer Size (KB)","","text");
+      transferSizeInKBColumn = await mondayService.createColumn(shortLivedToken,boardId,"Transfer Size (KB)","","numbers");
       transferSizeInKBColumn = transferSizeInKBColumn.data.create_column
     }
 
@@ -103,7 +103,7 @@ async function executeAction(req, res) {
 
     var unusedJavascriptBytesColumn = allRowAttributes.find(item => item.title.toLowerCase() === "unused js (kb)");
     if(!unusedJavascriptBytesColumn){
-      unusedJavascriptBytesColumn = await mondayService.createColumn(shortLivedToken,boardId,"Unused JS (KB)","","text");
+      unusedJavascriptBytesColumn = await mondayService.createColumn(shortLivedToken,boardId,"Unused JS (KB)","","numbers");
       unusedJavascriptBytesColumn = unusedJavascriptBytesColumn.data.create_column
     }
     unusedJavascriptBytesColumnId = unusedJavascriptBytesColumn.id
@@ -111,7 +111,7 @@ async function executeAction(req, res) {
     
     var unusedJavascriptSecondsColumn = allRowAttributes.find(item => item.title.toLowerCase() === "unused js (ms)");
     if(!unusedJavascriptSecondsColumn){
-      unusedJavascriptSecondsColumn = await mondayService.createColumn(shortLivedToken,boardId,"Unused JS (ms)","","text");
+      unusedJavascriptSecondsColumn = await mondayService.createColumn(shortLivedToken,boardId,"Unused JS (ms)","","numbers");
       unusedJavascriptSecondsColumn = unusedJavascriptSecondsColumn.data.create_column
     }
     unusedJavascriptSecondsColumnId = unusedJavascriptSecondsColumn.id
@@ -119,7 +119,7 @@ async function executeAction(req, res) {
 
     var unusedCSSBytesColumn = allRowAttributes.find(item => item.title.toLowerCase() === "unused css (kb)");
     if(!unusedCSSBytesColumn){
-      unusedCSSBytesColumn = await mondayService.createColumn(shortLivedToken,boardId,"Unused CSS (KB)","","text");
+      unusedCSSBytesColumn = await mondayService.createColumn(shortLivedToken,boardId,"Unused CSS (KB)","","numbers");
       unusedCSSBytesColumn = unusedCSSBytesColumn.data.create_column
     }
     unusedCSSBytesColumnId = unusedCSSBytesColumn.id
@@ -127,7 +127,7 @@ async function executeAction(req, res) {
 
     var unusedCSSSecondsColumn = allRowAttributes.find(item => item.title.toLowerCase() === "unused css (ms)");
     if(!unusedCSSSecondsColumn){
-      unusedCSSSecondsColumn = await mondayService.createColumn(shortLivedToken,boardId,"Unused CSS (ms)","","text");
+      unusedCSSSecondsColumn = await mondayService.createColumn(shortLivedToken,boardId,"Unused CSS (ms)","","numbers");
       unusedCSSSecondsColumn = unusedCSSSecondsColumn.data.create_column
     }
     unusedCSSSecondsColumnId = unusedCSSSecondsColumn.id
@@ -136,7 +136,7 @@ async function executeAction(req, res) {
 
     var annualEnergyColumn = allRowAttributes.find(item => item.title.toLowerCase() === "annual energy (1000 monthly visitors)");
     if(!annualEnergyColumn){
-      annualEnergyColumn = await mondayService.createColumn(shortLivedToken,boardId,"Annual Energy (1000 Monthly Visitors)","","text");
+      annualEnergyColumn = await mondayService.createColumn(shortLivedToken,boardId,"Annual Energy (1000 Monthly Visitors)","","numbers");
       annualEnergyColumn = annualEnergyColumn.data.create_column
     }
 
@@ -145,7 +145,7 @@ async function executeAction(req, res) {
 
     var annualEmissionGMColumn = allRowAttributes.find(item => item.title.toLowerCase() === "annual emission (1000 monthly visitors)");
     if(!annualEmissionGMColumn){
-      annualEmissionGMColumn = await mondayService.createColumn(shortLivedToken,boardId,"Annual Emission (1000 Monthly Visitors)","","text");
+      annualEmissionGMColumn = await mondayService.createColumn(shortLivedToken,boardId,"Annual Emission (1000 Monthly Visitors)","","numbers");
       annualEmissionGMColumn = annualEmissionGMColumn.data.create_column 
     }
 
@@ -249,7 +249,7 @@ async function executeEmailAction(req,res){
     
 
     if(!spamEmailColumn){
-      spamEmailColumn= await mondayService.createColumn(shortLivedToken,boardId,"Spam Email","","text");
+      spamEmailColumn= await mondayService.createColumn(shortLivedToken,boardId,"Spam Email","","numbers");
       spamEmailColumn = spamEmailColumn.data.create_column
     }
     spamEmailColumnId = spamEmailColumn.id;
@@ -259,7 +259,7 @@ async function executeEmailAction(req,res){
     
 
     if(!p2pEmailColumn){
-      p2pEmailColumn= await mondayService.createColumn(shortLivedToken,boardId,"Short Email Phone","Short Email Phone to Phone","text");
+      p2pEmailColumn= await mondayService.createColumn(shortLivedToken,boardId,"Short Email Phone","Short Email Phone to Phone","numbers");
       p2pEmailColumn = p2pEmailColumn.data.create_column
     }
     p2pEmailColumnId = p2pEmailColumn.id;
@@ -268,7 +268,7 @@ async function executeEmailAction(req,res){
     var l2lEmailColumn = allRowAttributes.find(item => item.title.toLowerCase() === "short email laptop");
 
     if(!l2lEmailColumn){
-      l2lEmailColumn= await mondayService.createColumn(shortLivedToken,boardId,"Short Email Laptop","Short Email Laptop to Laptop","text");
+      l2lEmailColumn= await mondayService.createColumn(shortLivedToken,boardId,"Short Email Laptop","Short Email Laptop to Laptop","numbers");
       l2lEmailColumn = l2lEmailColumn.data.create_column
     }
     l2lEmailColumnId = l2lEmailColumn.id;
@@ -278,7 +278,7 @@ async function executeEmailAction(req,res){
     var longEmailColumn = allRowAttributes.find(item => item.title.toLowerCase() === "long email");
     
     if(!longEmailColumn){
-      longEmailColumn= await mondayService.createColumn(shortLivedToken,boardId,"Long Email","Email takes 10min to write, 3 min to read","text");
+      longEmailColumn= await mondayService.createColumn(shortLivedToken,boardId,"Long Email","Email takes 10min to write, 3 min to read","numbers");
       longEmailColumn = longEmailColumn.data.create_column
     }
     longEmailColumnId = longEmailColumn.id;
@@ -288,7 +288,7 @@ async function executeEmailAction(req,res){
     var newsletterEmailColumn = allRowAttributes.find(item => item.title.toLowerCase() === "newsletter email");
     
     if(!newsletterEmailColumn){
-      newsletterEmailColumn= await mondayService.createColumn(shortLivedToken,boardId,"Newsletter Email","One email, 10min to write, 3min to read sent to 100 people of whom 99 ignore after 3 seconds as not relevant and 1 person read.","text");
+      newsletterEmailColumn= await mondayService.createColumn(shortLivedToken,boardId,"Newsletter Email","One email, 10min to write, 3min to read sent to 100 people of whom 99 ignore after 3 seconds as not relevant and 1 person read.","numbers");
       newsletterEmailColumn = newsletterEmailColumn.data.create_column
     }
     newsletterEmailColumnId = newsletterEmailColumn.id;
@@ -297,7 +297,7 @@ async function executeEmailAction(req,res){
     var attachmentEmailColumn = allRowAttributes.find(item => item.title.toLowerCase() === "attachment email");
     
     if(!attachmentEmailColumn){
-      attachmentEmailColumn= await mondayService.createColumn(shortLivedToken,boardId,"Attachment Email","Email with atleast one attachment","text");
+      attachmentEmailColumn= await mondayService.createColumn(shortLivedToken,boardId,"Attachment Email","Email with atleast one attachment","numbers");
       attachmentEmailColumn = attachmentEmailColumn.data.create_column
     }
     attachmentEmailColumnId = attachmentEmailColumn.id;
