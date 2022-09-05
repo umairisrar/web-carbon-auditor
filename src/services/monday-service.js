@@ -406,7 +406,7 @@ function calculateWebFootprint(url, deviceType) {
     var categoriesData = pagespeedapiObj.lighthouseResult.categories;
 
     var totalBytes = pagespeedapiObj.lighthouseResult.audits["total-byte-weight"].numericValue;
-    var speed = parseInt(pagespeedapiObj.lighthouseResult.audits['speed-index'].displayValue);
+    var speed = pagespeedapiObj.lighthouseResult.audits['speed-index'].displayValue;
     var performance = Math.ceil(categoriesData['performance'].score * 100);
     //var domSize = pagespeedapiObj.lighthouseResult.audits['dom-size'].details.items[0].value;
 
