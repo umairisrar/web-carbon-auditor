@@ -406,7 +406,7 @@ function calculateWebFootprint(url, deviceType) {
     var categoriesData = pagespeedapiObj.lighthouseResult.categories;
 
     var totalBytes = pagespeedapiObj.lighthouseResult.audits["total-byte-weight"].numericValue;
-    var speed = pagespeedapiObj.lighthouseResult.audits['speed-index'].displayValue;
+    var speed = parseInt(pagespeedapiObj.lighthouseResult.audits['speed-index'].displayValue);
     var performance = Math.ceil(categoriesData['performance'].score * 100);
     //var domSize = pagespeedapiObj.lighthouseResult.audits['dom-size'].details.items[0].value;
 
@@ -450,15 +450,15 @@ function calculateWebFootprint(url, deviceType) {
 
     // console.log("emissionsPerVisitInGrams=>" + emissionsPerVisitInGrams);
 
-    var transferSizeInKB = parseFloat(totalBytes/1024).toFixed(2);
+    var transferSizeInKB = parseFloat(parseFloat(totalBytes/1024).toFixed(2));
 
-    var annualEnergyInKwh = swd.annualEnergyInKwh(energyPerVisit).toFixed(2);
-    var annualEmissionsInGrams = swd.annualEmissionsInGrams(co2Value).toFixed(2);
+    var annualEnergyInKwh = parseFloat(swd.annualEnergyInKwh(energyPerVisit).toFixed(2));
+    var annualEmissionsInGrams = parseFloat(swd.annualEmissionsInGrams(co2Value).toFixed(2));
 
     var isGreen = isGreenHost?'Yes':'No';
 
     resolve({
-      co2: co2Value.toFixed(2),
+      co2: parseFloat(co2Value.toFixed(2)),
       energyPerVisit: energyPerVisit,
       transferSizeInKB,
       annualEnergyInKwh,
