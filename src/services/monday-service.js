@@ -60,7 +60,7 @@ const createColumn = async (token, boardId, title,description, column_type) => {
 
     const mondayClient = initMondayClient({ token });
 
-    console.log({ token, boardId, title, type });
+    console.log({ token, boardId, title, column_type });
 
     //let width  = title.length * 12;
 
