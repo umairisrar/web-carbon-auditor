@@ -87,7 +87,7 @@ async function executeAction(req, res) {
 
     var energyColumn = allRowAttributes.find(item => item.title.toLowerCase() === "energy per visit (kwh)");
     if(!energyColumn){
-      energyColumn = await mondayService.createColumn(shortLivedToken,boardId,"Energy Per Visit (kWh)","","text");
+      energyColumn = await mondayService.createColumn(shortLivedToken,boardId,"Energy Per Visit (kWh)","","numbers");
       energyColumn = energyColumn.data.create_column
     }
     energyPerVisitColumnId = energyColumn.id
