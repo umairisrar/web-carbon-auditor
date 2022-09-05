@@ -53,10 +53,10 @@ async function executeAction(req, res) {
 
 
     
-    var speedColumn = allRowAttributes.find(item => item.title.toLowerCase() === "speed");
+    var speedColumn = allRowAttributes.find(item => item.title.toLowerCase() === "speed (s)");
 
     if(!speedColumn){
-      speedColumn= await mondayService.createColumn(shortLivedToken,boardId,"Speed","","numbers");
+      speedColumn= await mondayService.createColumn(shortLivedToken,boardId,"Speed (s)","Seconds to load website","numbers");
       speedColumn = speedColumn.data.create_column
     }
 
