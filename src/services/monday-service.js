@@ -65,14 +65,24 @@ const createColumn = async (token, boardId, title,description, column_type) => {
     //let width  = title.length * 12;
 
     //console.log(width);
-    const query = `mutation create_column($boardId: Int!, $title: String!, $description:String!,$column_type:ColumnType!) {
-      create_column(board_id: $boardId, title: $title,description:$description, column_type: [$column_type]) {
+    let query = `mutation create_column($boardId: Int!, $title: String!, $description:String!) {
+      create_column(board_id: $boardId, title: $title,description:$description, column_type: numbers) {
           id
         }
       }
       `;
+    
+    if(column_type=="text"){
+     query = `mutation create_column($boardId: Int!, $title: String!, $description:String!) {
+      create_column(board_id: $boardId, title: $title,description:$description, column_type: text) {
+          id
+        }
+      }
+      `;
+    
+    }
 
-    const variables = { boardId, title,description,column_type };
+    const variables = { boardId, title,description };
 
     console.log(variables);
 
