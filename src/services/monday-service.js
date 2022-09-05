@@ -65,7 +65,7 @@ const createColumn = async (token, boardId, title,description, column_type) => {
     //let width  = title.length * 12;
 
     //console.log(width);
-    const query = `mutation create_column($boardId: Int!, $title: String!, $description:String!,$column_type:!ColumnType) {
+    const query = `mutation create_column($boardId: Int!, $title: String!, $description:String!,$column_type:ColumnType!) {
       create_column(board_id: $boardId, title: $title,description:$description, column_type: [$column_type]) {
           id
         }
