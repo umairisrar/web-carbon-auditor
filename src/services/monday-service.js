@@ -54,7 +54,7 @@ const getRowAtributes = async (token, itemId) => {
   }
 };
 
-const createColumn = async (token, boardId, title,description, type) => {
+const createColumn = async (token, boardId, title,description, column_type) => {
   try {
 
 
@@ -65,14 +65,14 @@ const createColumn = async (token, boardId, title,description, type) => {
     //let width  = title.length * 12;
 
     //console.log(width);
-    const query = `mutation create_column($boardId: Int!, $title: String!, $description:String!) {
-      create_column(board_id: $boardId, title: $title,description:$description, column_type: text) {
+    const query = `mutation create_column($boardId: Int!, $title: String!, $description:String!,$column_type:!ColumnType) {
+      create_column(board_id: $boardId, title: $title,description:$description, column_type: $column_type) {
           id
         }
       }
       `;
 
-    const variables = { boardId, title,description };
+    const variables = { boardId, title,description,column_type };
 
     console.log(variables);
 
@@ -267,12 +267,12 @@ const changeMultipleColumnValuesForEmail= async (token, boardId, itemId, emailCo
     
       columnPayload = {
 
-        [spamEmailColumnId]: byteResult.spamEmailCarbon.toFixed(2).toString(),
-        [p2pEmailColumnId]: byteResult.shortP2PEmailCarbon.toFixed(2).toString(),
-        [l2lEmailColumnId]: byteResult.shortL2LEmailCarbon.toFixed(2).toString(),
-        [longEmailColumnId]: byteResult.longEmailCarbon.toFixed(2).toString(),
-        [newsletterEmailColumnId]: byteResult.newsletterEmailCarbon.toFixed(2).toString(),
-        [attachmentEmailColumnId]: byteResult.attachmentEmailCarbon.toFixed(2).toString()
+        [spamEmailColumnId]: byteResult.spamEmailCarbon.toFixed(2),
+        [p2pEmailColumnId]: byteResult.shortP2PEmailCarbon.toFixed(2),
+        [l2lEmailColumnId]: byteResult.shortL2LEmailCarbon.toFixed(2),
+        [longEmailColumnId]: byteResult.longEmailCarbon.toFixed(2),
+        [newsletterEmailColumnId]: byteResult.newsletterEmailCarbon.toFixed(2),
+        [attachmentEmailColumnId]: byteResult.attachmentEmailCarbon.toFixed(2)
 
       }
 
@@ -440,16 +440,16 @@ function calculateWebFootprint(url, deviceType) {
 
     // console.log("emissionsPerVisitInGrams=>" + emissionsPerVisitInGrams);
 
-    var transferSizeInKB = parseFloat(totalBytes/1024).toFixed(2).toString();
+    var transferSizeInKB = parseFloat(totalBytes/1024).toFixed(2);
 
-    var annualEnergyInKwh = swd.annualEnergyInKwh(energyPerVisit).toFixed(2).toString() ;
-    var annualEmissionsInGrams = swd.annualEmissionsInGrams(co2Value).toFixed(2).toString();
+    var annualEnergyInKwh = swd.annualEnergyInKwh(energyPerVisit).toFixed(2);
+    var annualEmissionsInGrams = swd.annualEmissionsInGrams(co2Value).toFixed(2);
 
     var isGreen = isGreenHost?'Yes':'No';
 
     resolve({
-      co2: co2Value.toFixed(2).toString(),
-      energyPerVisit: energyPerVisit.toString(),
+      co2: co2Value.toFixed(2),
+      energyPerVisit: energyPerVisit,
       transferSizeInKB,
       annualEnergyInKwh,
       annualEmissionsInGrams,
