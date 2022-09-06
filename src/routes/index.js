@@ -14,6 +14,12 @@ router.get('/terms-conditions',function(req,res) {
   res.sendFile(path.join(__dirname, 'public')+'/terms-conditions.html');
 });
 
+router.get('/how-to-use',function(req,res) {
+
+  
+  res.sendFile(path.join(__dirname, 'public')+'/terms-conditions.html');
+});
+
 
 router.get('/privacy-policy',function(req,res) {
 
