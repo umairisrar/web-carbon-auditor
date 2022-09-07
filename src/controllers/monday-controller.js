@@ -245,59 +245,59 @@ async function executeEmailAction(req,res){
     newsletterEmailColumnId=-1,attachmentEmailColumnId=-1;
 
 
-    var spamEmailColumn = allRowAttributes.find(item => item.title.toLowerCase() === "spam email (co2e)");
+    var spamEmailColumn = allRowAttributes.find(item => item.title.toLowerCase() === "spam email co2 (gms)");
     
 
     if(!spamEmailColumn){
-      spamEmailColumn= await mondayService.createColumn(shortLivedToken,boardId,"Spam Email (CO2E)","Spam email carbon emission","numbers");
+      spamEmailColumn= await mondayService.createColumn(shortLivedToken,boardId,"Spam Email CO2 (gms)","Spam email carbon emission","numbers");
       spamEmailColumn = spamEmailColumn.data.create_column
     }
     spamEmailColumnId = spamEmailColumn.id;
 
 
-    var p2pEmailColumn = allRowAttributes.find(item => item.title.toLowerCase() === "short email phone (co2e)");
+    var p2pEmailColumn = allRowAttributes.find(item => item.title.toLowerCase() === "short email phone co2 (gms)");
     
 
     if(!p2pEmailColumn){
-      p2pEmailColumn= await mondayService.createColumn(shortLivedToken,boardId,"Short Email Phone (CO2E)","Short Email Phone to Phone carbon emission","numbers");
+      p2pEmailColumn= await mondayService.createColumn(shortLivedToken,boardId,"Short Email Phone CO2 (gms)","Short Email Phone to Phone carbon emission","numbers");
       p2pEmailColumn = p2pEmailColumn.data.create_column
     }
     p2pEmailColumnId = p2pEmailColumn.id;
 
 
-    var l2lEmailColumn = allRowAttributes.find(item => item.title.toLowerCase() === "short email laptop (co2e)");
+    var l2lEmailColumn = allRowAttributes.find(item => item.title.toLowerCase() === "short email laptop co2 (gms)");
 
     if(!l2lEmailColumn){
-      l2lEmailColumn= await mondayService.createColumn(shortLivedToken,boardId,"Short Email Laptop (CO2E)","Short Email Laptop to Laptop carbon emission","numbers");
+      l2lEmailColumn= await mondayService.createColumn(shortLivedToken,boardId,"Short Email Laptop CO2 (gms)","Short Email Laptop to Laptop carbon emission","numbers");
       l2lEmailColumn = l2lEmailColumn.data.create_column
     }
     l2lEmailColumnId = l2lEmailColumn.id;
 
 
 
-    var longEmailColumn = allRowAttributes.find(item => item.title.toLowerCase() === "long email (co2e)");
+    var longEmailColumn = allRowAttributes.find(item => item.title.toLowerCase() === "long email co2 (gms)");
     
     if(!longEmailColumn){
-      longEmailColumn= await mondayService.createColumn(shortLivedToken,boardId,"Long Email (CO2E)","Email takes 10min to write, 3 min to read generate this carbon emission","numbers");
+      longEmailColumn= await mondayService.createColumn(shortLivedToken,boardId,"Long Email CO2 (gms)","Email takes 10min to write, 3 min to read generate this carbon emission","numbers");
       longEmailColumn = longEmailColumn.data.create_column
     }
     longEmailColumnId = longEmailColumn.id;
 
 
 
-    var newsletterEmailColumn = allRowAttributes.find(item => item.title.toLowerCase() === "newsletter email (co2e)");
+    var newsletterEmailColumn = allRowAttributes.find(item => item.title.toLowerCase() === "newsletter email co2 (gms)");
     
     if(!newsletterEmailColumn){
-      newsletterEmailColumn= await mondayService.createColumn(shortLivedToken,boardId,"Newsletter Email (CO2E)","One email, 10min to write, 3min to read sent to 100 people of whom 99 ignore after 3 seconds as not relevant and 1 person read generates this carbon emission","numbers");
+      newsletterEmailColumn= await mondayService.createColumn(shortLivedToken,boardId,"Newsletter Email CO2 (gms)","One email, 10min to write, 3min to read sent to 100 people of whom 99 ignore after 3 seconds as not relevant and 1 person read generates this carbon emission","numbers");
       newsletterEmailColumn = newsletterEmailColumn.data.create_column
     }
     newsletterEmailColumnId = newsletterEmailColumn.id;
 
 
-    var attachmentEmailColumn = allRowAttributes.find(item => item.title.toLowerCase() === "attachment email (co2e)");
+    var attachmentEmailColumn = allRowAttributes.find(item => item.title.toLowerCase() === "attachment email co2 (gms)");
     
     if(!attachmentEmailColumn){
-      attachmentEmailColumn= await mondayService.createColumn(shortLivedToken,boardId,"Attachment Email (CO2E)","Email with atleast one attachment generates this carbon emission","numbers");
+      attachmentEmailColumn= await mondayService.createColumn(shortLivedToken,boardId,"Attachment Email CO2 (gms)","Email with atleast one attachment generates this carbon emission","numbers");
       attachmentEmailColumn = attachmentEmailColumn.data.create_column
     }
     attachmentEmailColumnId = attachmentEmailColumn.id;
